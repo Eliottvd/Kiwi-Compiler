@@ -1,0 +1,9 @@
+﻿# Program 1
+Begin 
+
+    # instruction
+    w = b * b
+    b = 5
+    w++ 
+
+End

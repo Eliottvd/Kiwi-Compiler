@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Compilateur\Compilateur.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="generated\output\semantic\instruction\" />
+    <Folder Include="generated\semantic\" />
+    <Folder Include="generated\syntax\" />
+  </ItemGroup>
+
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="$(ProjectDir)\generated\scripts\create_syntax.py  &#xD;&#xA;$(ProjectDir)\generated\scripts\create_semantics.py" />
+  </Target>
+  
+  <Target Name="AfterClean" AfterTargets="Clean">
+    <Delete Files="$(ProjectDir)\generated\output\semantic" ContinueOnError="true" />
+  </Target>
+
+</Project>

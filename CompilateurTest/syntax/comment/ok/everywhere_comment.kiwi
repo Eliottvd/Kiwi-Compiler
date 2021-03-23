@@ -1,0 +1,18 @@
+﻿# Program 1
+Begin 
+    # Function1
+
+    #constante déclaration
+    const LF 13
+
+    # Variable déclaration
+    byte b = 0x69
+
+    # instruction
+    w = b * b
+
+    # print instruction
+    Print(w)
+
+# End comment
+End
