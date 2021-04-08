@@ -16,11 +16,18 @@ namespace Compilateur
 
         public override string VisitDemo(DEMOParser.DemoContext context)
         {
-            Printer.PrintBegin();
+            Printer.PrintBeginData();
+
+            foreach (var declarationContext in context.declaration())
+            {
+               this.Visit(declarationContext);
+            }
+
+            Printer.PrintBeginCode();
 
             foreach (var instructionContext in context.instruction())
             {
-                var left = this.Visit(instructionContext);
+                this.Visit(instructionContext);
             }
 
             Printer.PrintEnd();
@@ -32,18 +39,18 @@ namespace Compilateur
             var left = this.Visit(context.exprent(0));
             var right = this.Visit(context.exprent(1));
 
-            if (context.op.Type == DEMOLexer.PLUS)
+            switch (context.op.Type)
             {
-                Printer.PrintMov(AssemblyRegister.AX, byte.Parse(left));
-                Printer.PrintMov(AssemblyRegister.BX, byte.Parse(right));
-                Printer.PrintAdd(AssemblyRegister.AX, AssemblyRegister.BX);
-            }
-
-            if (context.op.Type == DEMOLexer.MINUS)
-            {
-                Printer.PrintMov(AssemblyRegister.AX, byte.Parse(left));
-                Printer.PrintMov(AssemblyRegister.BX, byte.Parse(right));
-                Printer.PrintSub(AssemblyRegister.AX, AssemblyRegister.BX);
+                case DEMOLexer.PLUS:
+                    Printer.PrintMov(AssemblyRegister.AX, byte.Parse(left));
+                    Printer.PrintMov(AssemblyRegister.BX, byte.Parse(right));
+                    Printer.PrintAdd(AssemblyRegister.AX, AssemblyRegister.BX);
+                    break;
+                case DEMOLexer.MINUS:
+                    Printer.PrintMov(AssemblyRegister.AX, byte.Parse(left));
+                    Printer.PrintMov(AssemblyRegister.BX, byte.Parse(right));
+                    Printer.PrintSub(AssemblyRegister.AX, AssemblyRegister.BX);
+                    break;
             }
 
             return (string)("SUB " + left + "," + right);
@@ -54,6 +61,19 @@ namespace Compilateur
             var exp = this.Visit(context.exprent());
             Printer.PrintMov(AssemblyRegister.AX, byte.Parse(exp));
             Printer.PrintNot(AssemblyRegister.AX);
+            return string.Empty;
+        }
+        public override string VisitRightExpIncrement(DEMOParser.RightExpIncrementContext context)
+        {
+            Printer.PrintMov(AssemblyRegister.AX, byte.Parse(this.Visit(context.exprent())));
+            Printer.PrintInc(AssemblyRegister.AX);
+            return string.Empty;
+        }
+
+        public override string VisitRightExpDecrement(DEMOParser.RightExpDecrementContext context)
+        {
+            Printer.PrintMov(AssemblyRegister.AX, byte.Parse(this.Visit(context.exprent())));
+            Printer.PrintDec(AssemblyRegister.AX);
             return string.Empty;
         }
 
@@ -67,6 +87,24 @@ namespace Compilateur
             this.Visit(context.expr());
             this.Printer.PrintCallPrintAX();
             return "";
+        }
+
+        public override string VisitDeclaByte(DEMOParser.DeclaByteContext context)
+        {
+            switch (context.type.Type)
+            {
+                case DEMOLexer.BYTE:
+                    Printer.PrintByteDeclaration(context.ID().GetText());
+                    break;
+                case DEMOLexer.WORD:
+                    Printer.PrintWordDeclaration(context.ID().GetText());
+                    break;
+                case DEMOLexer.STRING:
+                    Printer.PrintStringDeclaration(context.ID().GetText());
+                    break;
+            }
+            
+            return string.Empty;
         }
     }
 }

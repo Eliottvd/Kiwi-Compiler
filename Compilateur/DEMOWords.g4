@@ -13,9 +13,19 @@ TRUE: 'TRUE';
 FALSE: 'FALSE';
 NOP: 'NOP';
 NOT: '!';
+INC: '++';
+DEC: '--';
+EQUAL: '=';
+BYTE: 'byte';
+WORD: 'word';
+STRING: 'string';
+
+ 
 
 NUMBER: (DIGIT)+;
+ID: (LETTER)(LETTER|DIGIT)*;
 
+fragment LETTER: [a-z]|[A-Z];
 fragment DIGIT: [0-9];
 fragment BIT: [0-1];
 

@@ -61,6 +61,19 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    assume cs:code, ds:data");
             this.writer.WriteLine("start:");
         }
+        public void PrintBeginData()
+        {
+            this.writer.WriteLine("data segment");
+            this.writer.WriteLine("    msg db \"My message$\"");
+        }
+        public void PrintBeginCode()
+        { 
+            this.writer.WriteLine("data ends");
+            this.writer.WriteLine("");
+            this.writer.WriteLine("code segment");
+            this.writer.WriteLine("    assume cs:code, ds:data");
+            this.writer.WriteLine("start:");
+        }
 
         public void PrintEnd()
         {
@@ -76,9 +89,34 @@ namespace Compilateur.Generator
             this.writer.WriteLine("end start");
         }
 
+        public void PrintByteDeclaration(string id)
+        {
+            this.writer.WriteLine("    " + id + " db 0");
+        }
+
+        public void PrintWordDeclaration(string id)
+        {
+            this.writer.WriteLine("    " + id + " dw 0");
+        }
+
+        public void PrintStringDeclaration(string id)
+        {
+            this.writer.WriteLine("    " + id + " db '$'");
+        }
+
         public void PrintMov(AssemblyRegister register, byte b)
         {
             this.writer.WriteLine("    MOV " + register + "," + b);
+        }
+
+        public void PrintInc(AssemblyRegister register)
+        {
+            this.writer.WriteLine("    INC " + register);
+        }
+
+        public void PrintDec(AssemblyRegister register)
+        {
+            this.writer.WriteLine("    DEC " + register);
         }
 
         public void PrintAdd(AssemblyRegister register, AssemblyRegister register2)

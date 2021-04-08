@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Antlr4 Remove="GLOSSARYWords.g4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="MyErrorListener.cs" />
   </ItemGroup>
 

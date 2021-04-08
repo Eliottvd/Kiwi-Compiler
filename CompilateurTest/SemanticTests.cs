@@ -10,11 +10,11 @@ namespace Compilateur.Tests
         [TestMethod()]
         public void VisitDemoTest()
         {
-            var code = "Begin\n 5+2 \nEnd\n";
+            var code = "Begin\n 5+2 \n 6++ \n 10-- \n End\n";
             var tree = Program.Parse(code);
             var asmCode = Program.PrintAssemblyCode(tree);
             Console.Out.WriteLine(asmCode);
-            var expectedResult = File.ReadAllText("../../../expectedResults/er1.txt");
+            var expectedResult = File.ReadAllText("../../../expectedResults/er1.asm");
             Assert.AreEqual(expectedResult, asmCode);
         }
     }

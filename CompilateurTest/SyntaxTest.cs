@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using Compilateur.Exception;
 
 namespace Compilateur.Tests
@@ -20,12 +21,16 @@ namespace Compilateur.Tests
         }
 
         [DataTestMethod]  
-        [DataRow("Begin\n 5+2 \nEnd\n", "Bad expression")]  
-        [DataRow("Begin\n #Mon commentaire\n 5+2 \nEnd", "Bad expression")]  
+        [DataRow("Begin\n 5+2 \nEnd\n", "swag")]  
+        [DataRow("Begin\n #Mon commentaire\n 5+2 \nEnd", "swag")]  
         public void BeginEndTest(string code, string other)
         {
-            Console.Out.WriteLine(code + Environment.NewLine);
+            //Console.Out.WriteLine(code + Environment.NewLine);
             var context = Program.Parse(code);
+            var asmCode = Program.PrintAssemblyCode(context);
+            Console.Out.WriteLine(asmCode);
+  
+            Assert.AreEqual(other, asmCode);
         }
     }
 }
