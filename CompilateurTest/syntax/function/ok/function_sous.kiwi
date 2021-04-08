@@ -1,0 +1,14 @@
+# Program 1
+Begin 
+    # Function1
+    word Soustraction(byte a, byte b)
+    {
+        return a-b
+    }
+
+
+    w = Sum(10, 5)
+
+    Print(w)
+
+End

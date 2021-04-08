@@ -20,10 +20,8 @@ namespace Compilateur.Tests
         }
 
         [DataTestMethod]  
-        [DataRow("Begin\n print(5+2) \nEnd\n", "Bad expression")]  
         [DataRow("Begin\n 5+2 \nEnd\n", "Bad expression")]  
-        [DataRow("Begin\n /*Mon commentaire*/ \nEnd", "Bad expression")]  
-        [DataRow("Begin\n /*Mon commentaire*/ \n4+6 \nEnd", "Bad expression")]  
+        [DataRow("Begin\n #Mon commentaire\n 5+2 \nEnd", "Bad expression")]  
         public void BeginEndTest(string code, string other)
         {
             Console.Out.WriteLine(code + Environment.NewLine);

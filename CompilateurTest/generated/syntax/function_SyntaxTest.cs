@@ -10,9 +10,15 @@ namespace Compilateur.Tests
     // Serie function OK
     //
         [TestMethod()]
+        public void testfunction_function_sous_ok(){
+            Program.Compile(@"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\syntax\function\ok\function_sous.kiwi", 
+                    @"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\generated\output\syntax\function\ok\function_sous.asm");
+        }
+
+        [TestMethod()]
         public void testfunction_function_sum_ok(){
-            Program.Compile(@"C:\Tmp\Compilateur\CompilateurTest\syntax\function\ok\function_sum.kiwi", 
-                    @"C:\Tmp\Compilateur\CompilateurTest\generated\output\syntax\function\ok\function_sum.asm");
+            Program.Compile(@"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\syntax\function\ok\function_sum.kiwi", 
+                    @"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\generated\output\syntax\function\ok\function_sum.asm");
         }
 
     //
@@ -21,8 +27,8 @@ namespace Compilateur.Tests
         [TestMethod()]
         [ExpectedException(typeof(ParsingException))]
         public void testfunction_function_missing_paranthesis_ko(){
-            Program.Compile(@"C:\Tmp\Compilateur\CompilateurTest\syntax\function\ko\function_missing_paranthesis.kiwi", 
-                    @"C:\Tmp\Compilateur\CompilateurTest\generated\output\syntax\function\ko\function_missing_paranthesis.asm");
+            Program.Compile(@"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\syntax\function\ko\function_missing_paranthesis.kiwi", 
+                    @"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\generated\output\syntax\function\ko\function_missing_paranthesis.asm");
         }
 
     }

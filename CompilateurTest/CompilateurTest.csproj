@@ -26,7 +26,7 @@
 
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="$(ProjectDir)\generated\scripts\create_syntax.py  &#xD;&#xA;$(ProjectDir)\generated\scripts\create_semantics.py" />
+    <Exec Command="&quot;$(ProjectDir)&quot;\generated\scripts\create_syntax.py  &#xD;&#xA;&quot;$(ProjectDir)&quot;\generated\scripts\create_semantics.py" />
   </Target>
   
   <Target Name="AfterClean" AfterTargets="Clean">

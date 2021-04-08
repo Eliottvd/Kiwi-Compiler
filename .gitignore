@@ -365,6 +365,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 TestResults/
+todo.txt
 
 ### DotnetCore ###
 # .NET Core build folders

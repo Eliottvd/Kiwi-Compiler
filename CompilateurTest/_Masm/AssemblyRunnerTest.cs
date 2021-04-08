@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using Compilateur.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CompilateurTest._Masm
@@ -15,6 +16,13 @@ namespace CompilateurTest._Masm
             AssemblyRunner.Start(RootFolder, "_runner", "aa.asm");
         }
 
+        [TestMethod()]
+        [ExpectedException(typeof(MasmException))]
+        public void AssemblyRunnerBB_asmExceptionExpected()
+        {
+            AssemblyRunner.Start(RootFolder, "_runner", "bb.asm");
+        }
+
         [TestMethod]
         public void To8_3Test()
         {
@@ -23,7 +31,5 @@ namespace CompilateurTest._Masm
             var p2 = AssemblyRunner.To8_3(@"C:\Users\karl\Downloads\DosBox With MP folder\DOSBox0_74-win32-installer\Screenshots & Recordings.bat");
             Assert.IsTrue(p2.EndsWith(".bat"));
         }
-
-
     }
 }

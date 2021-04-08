@@ -11,13 +11,17 @@ BEGIN: 'Begin';
 END: 'End';
 TRUE: 'TRUE';
 FALSE: 'FALSE';
+NOP: 'NOP';
+NOT: '!';
 
 NUMBER: (DIGIT)+;
 
-fragment DIGIT: [0-9] ;
+fragment DIGIT: [0-9];
+fragment BIT: [0-1];
+
 
 // Comments -> ignored
-COMMENT: '/*' .*? '*/' -> skip;
+COMMENT: '#'~('\r'|'\n')* -> skip;
 
 // Whitespaces -> ignored
 NEWLINE: '\r'? '\n'  -> skip ;

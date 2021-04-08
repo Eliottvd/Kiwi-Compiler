@@ -30,7 +30,16 @@ namespace Compilateur
             
             // Genrate code
             var asmCode = PrintAssemblyCode(tree);
+            // Create output directory 
+            CreateFolderStructur(output);
+            // Print code to output file
             File.WriteAllText(output, asmCode);
+        }
+
+        private static void CreateFolderStructur(string output)
+        {
+            FileInfo fi = new FileInfo(output);
+            Directory.CreateDirectory(fi.DirectoryName);
         }
 
         public static DEMOParser.DemoContext Parse(string sourceCode)

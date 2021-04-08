@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
+using Compilateur.Exception;
 
 namespace CompilateurTest._Masm
 {
@@ -15,7 +17,7 @@ namespace CompilateurTest._Masm
         /// <param name="serie">Le nom du répertoire "série"</param>
         /// <param name="asmFile">__asm_code_File__.asm</param>
         /// <returns>The output file name</returns>
-        public static string Start(string mountFolder, string serie, string asmFile)
+        public static string Start(string mountFolder, string serie, string asmFile, bool redirectAndClose=true)
         {
 
             var dosBoxPath = Path.Combine(mountFolder, @"_Masm\DosBox\DosBox.exe");
@@ -33,10 +35,12 @@ namespace CompilateurTest._Masm
             var objFile = Path.Combine(fi.Name.Replace(".asm",".obj"));
             var outputFile = Path.Combine(generatedPath, fi.Name.Replace(".asm",".txt"));
             var exeFile = Path.Combine(generatedPath, fi.Name.Replace(".asm",".exe"));
+            var logFile = Path.Combine(fi.Name.Replace(".asm",".log"));
             asmFile = To8_3(asmFile);
             objFile = To8_3(objFile);
             outputFile = To8_3(outputFile);
             exeFile = To8_3(exeFile);
+            logFile = To8_3(logFile);
 
             ProcessStartInfo psi = new ProcessStartInfo()
             {
@@ -48,21 +52,28 @@ namespace CompilateurTest._Masm
             };
 
             // Prepare dosbox argument
-            //-c mount c ./mp -c c: -c masm aa.asm,,,,, -c link aa.obj,,,,, -c -c aa.exe >> aa.out -c exit
             // Mount disk
             psi.Arguments = " -c \"mount c '" + mountFolder + "'\"";
             // Change disk
-            psi.Arguments += "-c c: -c \"cd "+generatedPath+"\"";
+            psi.Arguments += " -c c: -c \"cd "+generatedPath+"\"";
             // Compile assembly
-            psi.Arguments += "-c \"" + masmPath + " " + asmFile + ",,,,,,\" ";
+            psi.Arguments += " -c \"" + masmPath + " " + asmFile + ",,,,,, > " + logFile+ "\"";
             // Link obj file
-            psi.Arguments += "-c \"" + linkPath + " " + objFile + ",,,,,\" ";
+            psi.Arguments += " -c \"" + linkPath + " " + objFile + ",,,,, >> " + logFile+ "\"";
             // Remove tmp files
-            psi.Arguments += "-c \"del *.crf\" -c \"del *.lst\" -c \"del *.obj\" -c \"del *.map\"";
-            // Run executable and redirect to file
-            psi.Arguments += "-c \"" + exeFile + " >> " + outputFile + "\"";
-            // Exit from DosBox
-            psi.Arguments += "-c \"exit\" ";
+            psi.Arguments += " -c \"del *.crf\" -c \"del *.lst\" -c \"del *.obj\" -c \"del *.map\"";
+            if( redirectAndClose)
+            {
+                // Run executable and redirect to file
+                psi.Arguments += " -c \"" + exeFile + " > " + outputFile + "\" ";
+                // Exit from DosBox
+                psi.Arguments += " -c \" exit -1 \"";
+            }
+            else
+            {
+                // Run executable and redirect to file
+                psi.Arguments += " -c \"" + exeFile + "\" ";
+            }
 
             Process p = new Process();
             p.StartInfo = psi;
@@ -73,7 +84,26 @@ namespace CompilateurTest._Masm
             p.BeginOutputReadLine();
             p.WaitForExit();
 
-            return Path.Combine(mountFolder, outputFile);
+            //Try to get error in the masm & link execution
+            logFile = Path.Combine(mountFolder, @"generated\output\semantic\", serie, logFile);
+            var log = File.ReadAllText(logFile);
+            if (!log.Contains(" 0 Warning Errors") || !log.Contains(" 0 Severe  Errors"))
+            {
+                throw new MasmException("\n\nMASM or LINK Error in " + serie + "\\" + fi.Name + "\n\n" + log);
+            }
+
+            var v = fi.Name.Replace(".asm", ".txt");
+            var v8 = To8_3(v);
+            outputFile = Path.Combine(mountFolder, @"generated\output\semantic\", serie, v); 
+            var file8 = Path.Combine(mountFolder, @"generated\output\semantic\", serie, v8); 
+            File.Move(file8, outputFile, true);
+
+            logFile = outputFile.Replace(".txt", ".log");
+            file8 = file8.Replace(".txt", ".log");
+            File.Move(file8, logFile, true);
+
+            var output = File.ReadAllText(outputFile);
+            return output;
         }
 
         public static string To8_3(string path)
