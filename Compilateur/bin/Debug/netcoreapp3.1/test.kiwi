@@ -1,9 +1,11 @@
 Begin 
-	string monStringIBRA 
+	string maString 
 	1++
 	8--
 	15+16
 	word monMot
 	8*8
-	byte monByte
+	byte monByt
+	maString = 4
+	ibra = 8
 End

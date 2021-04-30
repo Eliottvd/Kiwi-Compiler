@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Compilateur.Exception;
 using Compilateur.Generator;
+using Compilateur.Table;
 
 namespace Compilateur
 {
     public class DemoVisitor : DEMOBaseVisitor<string>
     {
         public AssemblyPrinter Printer { get; set; }
+        public SymbolTable SymbolTable { get; set; }
 
-        public DemoVisitor(AssemblyPrinter printer)
+        public DemoVisitor(AssemblyPrinter printer, SymbolTable symbolTable)
         {
             this.Printer = printer;
+            this.SymbolTable = symbolTable;
         }
 
         public override string VisitDemo(DEMOParser.DemoContext context)
         {
             Printer.PrintBeginData();
+            
 
             foreach (var declarationContext in context.declaration())
             {
@@ -92,6 +97,8 @@ namespace Compilateur
 
         public override string VisitDecl(DEMOParser.DeclContext context)
         {
+
+            this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText()));
             switch (context.type.Type)
             {
                 case DEMOLexer.BYTE:
@@ -106,6 +113,20 @@ namespace Compilateur
             }
 
             return string.Empty;
+        }
+
+        public override string VisitInstAssignation(DEMOParser.InstAssignationContext context)
+        {
+            if(this.SymbolTable.Entries.Find(e => e.Name == context.ID().GetText()) != null)
+            {
+                Printer.PrintAssignation(context.ID().GetText(), Int32.Parse(context.expr().GetText()));
+            }
+            else
+            {
+                throw new NotFoundSymbolException("Cannot find " + context.ID().GetText() + ". Please make sure it has been declared.");
+            }
+
+            return base.VisitInstAssignation(context);
         }
     }
 }

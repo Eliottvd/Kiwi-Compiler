@@ -1,8 +1,8 @@
 data segment
     msg db "My message$"
-    monStringIBRA db '$'
+    maString db '$'
     monMot dw 0
-    monByte db 0
+    monByt db 0
 data ends
 
 code segment
@@ -15,6 +15,7 @@ start:
     MOV AX,15
     MOV BX,16
     ADD AX,BX
+    MOV maString, 4
     mov ah, 4ch
     int 21h
 

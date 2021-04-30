@@ -3,12 +3,16 @@ using System.IO;
 using Antlr4.Runtime;
 using Compilateur.Exception;
 using Compilateur.Generator;
+using Compilateur.Table;
 
 namespace Compilateur
 {
     public class Program
     {
         static DEMOParser parser = null;
+
+        static SymbolTable symbolTable = new SymbolTable();
+        
         static void Main(string[] args)
         {
             if( args.Length >= 2)
@@ -49,7 +53,9 @@ namespace Compilateur
             parser = new DEMOParser(tokens);
             parser.RemoveErrorListeners();
             var stringErrorListener = new StringErrorListener();
+            DEMOSymbolListener symbolParser = new DEMOSymbolListener(symbolTable);
             parser.AddErrorListener(stringErrorListener);
+            parser.AddParseListener(symbolParser);
 
             DEMOParser.DemoContext tree;
 
@@ -58,6 +64,11 @@ namespace Compilateur
                 tree = parser.demo();
             }
             catch (RecognitionException e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            catch (System.Exception e)
             {
                 Console.WriteLine(e);
                 throw;
@@ -76,7 +87,7 @@ namespace Compilateur
         {
             var stream = new StringWriter();
             var printer = new AssemblyPrinter(stream);
-            DemoVisitor visitor = new DemoVisitor(printer);
+            DemoVisitor visitor = new DemoVisitor(printer, symbolTable);
             tree.Accept(visitor);
             printer.Flush();
             printer.Close();

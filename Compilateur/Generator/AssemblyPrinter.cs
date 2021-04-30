@@ -134,6 +134,11 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    NOT " + register);
         }
 
+        public void PrintAssignation(string id, int value)
+        {
+            this.writer.WriteLine("    MOV " + id + ", " + value);
+        }
+
 
         #region Print PopA ...
 
