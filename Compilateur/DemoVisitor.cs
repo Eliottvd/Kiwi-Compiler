@@ -20,7 +20,7 @@ namespace Compilateur
 
             foreach (var declarationContext in context.declaration())
             {
-               this.Visit(declarationContext);
+                this.Visit(declarationContext);
             }
 
             Printer.PrintBeginCode();
@@ -53,7 +53,7 @@ namespace Compilateur
                     break;
             }
 
-            return (string)("SUB " + left + "," + right);
+            return string.Empty;
         }
 
         public override string VisitRightExpNot(DEMOParser.RightExpNotContext context)
@@ -63,6 +63,7 @@ namespace Compilateur
             Printer.PrintNot(AssemblyRegister.AX);
             return string.Empty;
         }
+
         public override string VisitRightExpIncrement(DEMOParser.RightExpIncrementContext context)
         {
             Printer.PrintMov(AssemblyRegister.AX, byte.Parse(this.Visit(context.exprent())));
@@ -86,10 +87,10 @@ namespace Compilateur
         {
             this.Visit(context.expr());
             this.Printer.PrintCallPrintAX();
-            return "";
+            return string.Empty;
         }
 
-        public override string VisitDeclaByte(DEMOParser.DeclaByteContext context)
+        public override string VisitDecl(DEMOParser.DeclContext context)
         {
             switch (context.type.Type)
             {
@@ -103,7 +104,7 @@ namespace Compilateur
                     Printer.PrintStringDeclaration(context.ID().GetText());
                     break;
             }
-            
+
             return string.Empty;
         }
     }

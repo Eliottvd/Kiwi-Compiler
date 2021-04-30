@@ -14,29 +14,47 @@ namespace Compilateur.Tests
     //
         [TestMethod()]
         public void testinstruction_add_instruction(){
-            Program.Compile(@"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\semantic\instruction\add_instruction.kiwi", 
-                    @"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\add_instruction.asm");
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\instruction\add_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\add_instruction.asm");
 
-            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"add_instruction.asm", false);
-            Assert.AreEqual(res, "", "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"add_instruction.asm", true);
+            Assert.AreEqual("", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
         }
 
         [TestMethod()]
         public void testinstruction_add_print_instruction(){
-            Program.Compile(@"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\semantic\instruction\add_print_instruction.kiwi", 
-                    @"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\add_print_instruction.asm");
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\instruction\add_print_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\add_print_instruction.asm");
 
-            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"add_print_instruction.asm", false);
-            Assert.AreEqual(res, "10", "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"add_print_instruction.asm", true);
+            Assert.AreEqual("101010", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+        }
+
+        [TestMethod()]
+        public void testinstruction_declaration_All(){
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\instruction\declaration_All.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\declaration_All.asm");
+
+            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"declaration_All.asm", true);
+            Assert.AreEqual("25502", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
         }
 
         [TestMethod()]
         public void testinstruction_sub_print_instruction(){
-            Program.Compile(@"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\semantic\instruction\sub_print_instruction.kiwi", 
-                    @"D:\OneDrive - Enseignement de la Province de Liège\Ecole\PASSERELLE\Q2\WK_ Systemes a microp\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\sub_print_instruction.asm");
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\instruction\sub_print_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\sub_print_instruction.asm");
 
-            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"sub_print_instruction.asm", false);
-            Assert.AreEqual(res, "0\n10", "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"sub_print_instruction.asm", true);
+            Assert.AreEqual("010", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+        }
+
+        [TestMethod()]
+        public void testinstruction_var_print_instruction(){
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\instruction\var_print_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\instruction\var_print_instruction.asm");
+
+            var res = AssemblyRunner.Start(RootFolder, "instruction",  @"var_print_instruction.asm", true);
+            Assert.AreEqual("010052010", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
         }
 
     }

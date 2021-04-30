@@ -67,7 +67,7 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    msg db \"My message$\"");
         }
         public void PrintBeginCode()
-        { 
+        {
             this.writer.WriteLine("data ends");
             this.writer.WriteLine("");
             this.writer.WriteLine("code segment");
@@ -134,7 +134,68 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    NOT " + register);
         }
 
+
+        #region Print PopA ...
+
         public void PrintProcPrintAX()
+        {
+            var v = Environment.NewLine +
+                    ";------------------------------------------------" + Environment.NewLine +
+                    ";  Affiche la valeur entiere de AX " + Environment.NewLine +
+                    ";------------------------------------------------" + Environment.NewLine +
+                    "PRINT_AX PROC" + Environment.NewLine +
+                    "    cmp ax, 0" + Environment.NewLine +
+                    "    jne label0" + Environment.NewLine +
+                    "    ;print 0 if ax is 0" + Environment.NewLine +
+                    "    mov dx, 48" + Environment.NewLine +
+                    "    mov ah, 02h" + Environment.NewLine +
+                    "    int 21h" + Environment.NewLine +
+                    "    jmp exit" + Environment.NewLine +
+                    "    " + Environment.NewLine +
+                    "    label0:" + Environment.NewLine +
+                    ";initilize count" + Environment.NewLine +
+                    "mov cx,0" + Environment.NewLine +
+                    "mov dx,0" + Environment.NewLine +
+                    "label1:" + Environment.NewLine +
+                    "    ; if ax is zero" + Environment.NewLine +
+                    "    cmp ax,0" + Environment.NewLine +
+                    "    je print1	" + Environment.NewLine +
+                    "    ;initilize bx to 10" + Environment.NewLine +
+                    "    mov bx,10" + Environment.NewLine +
+                    "    ; extract the last digit" + Environment.NewLine +
+                    "    div bx" + Environment.NewLine +
+                    "    ;push it in the stack" + Environment.NewLine +
+                    "    push dx" + Environment.NewLine +
+                    "    ;increment the count" + Environment.NewLine +
+                    "    inc cx" + Environment.NewLine +
+                    "    ;set dx to 0" + Environment.NewLine +
+                    "    xor dx,dx" + Environment.NewLine +
+                    "    jmp label1" + Environment.NewLine +
+                    "print1:" + Environment.NewLine +
+                    "    ;check if count" + Environment.NewLine +
+                    "    ;is greater than zero" + Environment.NewLine +
+                    "    cmp cx,0" + Environment.NewLine +
+                    "    je exit" + Environment.NewLine +
+                    "    ;pop the top of stack" + Environment.NewLine +
+                    "    pop dx" + Environment.NewLine +
+                    "    ;add 48 so that it" + Environment.NewLine +
+                    "    ;represents the ASCII" + Environment.NewLine +
+                    "    ;value of digits" + Environment.NewLine +
+                    "    add dx,48" + Environment.NewLine +
+                    "    ;interuppt to print a" + Environment.NewLine +
+                    "    ;character" + Environment.NewLine +
+                    "    mov ah,02h" + Environment.NewLine +
+                    "    int 21h" + Environment.NewLine +
+                    "    ;decrease the count" + Environment.NewLine +
+                    "    dec cx" + Environment.NewLine +
+                    "    jmp print1" + Environment.NewLine +
+                    "exit:" + Environment.NewLine +
+                    "    ret" + Environment.NewLine +
+                    "PRINT_AX ENDP " + Environment.NewLine;
+            this.writer.WriteLine(v);
+        }        
+        
+        public void PrintProcPrintAXOld()
         {
             var v = Environment.NewLine +
                     ";------------------------------------------------" + Environment.NewLine +
@@ -144,9 +205,9 @@ namespace Compilateur.Generator
                     "CMP AX, 0" + Environment.NewLine +
                     "JNE print_ax_r" + Environment.NewLine +
                     "    PUSH AX" + Environment.NewLine +
-                    "    MOV DL, '0'" + Environment.NewLine +
-                    "    MOV AH, 02h" + Environment.NewLine +
-                    "    INT 21h" + Environment.NewLine +
+                    "    MOV AL, '0'" + Environment.NewLine +
+                    "    MOV AH, 0Eh" + Environment.NewLine +
+                    "    INT 10h" + Environment.NewLine +
                     "    POP AX" + Environment.NewLine +
                     "    RET " + Environment.NewLine +
                     "print_ax_r:" + Environment.NewLine +
@@ -159,9 +220,8 @@ namespace Compilateur.Generator
                     "    CALL print_ax_r" + Environment.NewLine +
                     "    MOV AX, DX" + Environment.NewLine +
                     "    ADD AL, 30h" + Environment.NewLine +
-                    "    MOV DL, AL" + Environment.NewLine +
-                    "    MOV AH, 02h" + Environment.NewLine +
-                    "    INT 21h" + Environment.NewLine +
+                    "    MOV AH, 09h" + Environment.NewLine +
+                    "    INT 10h" + Environment.NewLine +
                     "    JMP pn_done" + Environment.NewLine +
                     "pn_done:" + Environment.NewLine +
                     "    POPA" + Environment.NewLine +
@@ -194,6 +254,9 @@ namespace Compilateur.Generator
         public void PrintPusha()
         {
             var v = Environment.NewLine +
+                    ";------------------------------------------------" + Environment.NewLine +
+                    ";  PUSH tout les registres" + Environment.NewLine +
+                    ";------------------------------------------------" + Environment.NewLine +
                     "PUSHA    MACRO" + Environment.NewLine +
                     "    push ax" + Environment.NewLine +
                     "    push bx" + Environment.NewLine +
@@ -209,6 +272,9 @@ namespace Compilateur.Generator
         public void PrintPopa()
         {
             var v = Environment.NewLine +
+                    ";------------------------------------------------" + Environment.NewLine +
+                    ";  POP tout les registres" + Environment.NewLine +
+                    ";------------------------------------------------" + Environment.NewLine +
                     "POPA MACRO" + Environment.NewLine +
                     "    pop di" + Environment.NewLine +
                     "    pop si" + Environment.NewLine +
@@ -225,5 +291,8 @@ namespace Compilateur.Generator
         {
             this.writer.WriteLine("    CALL print_ax");
         }
+
+
+        #endregion Print PopA ...
     }
 }

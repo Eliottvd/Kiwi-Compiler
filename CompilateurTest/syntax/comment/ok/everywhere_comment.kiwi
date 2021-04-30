@@ -3,16 +3,15 @@ Begin
     # Function1
 
     #constante déclaration
-    const LF 13
-
+    byte b
     # Variable déclaration
-    byte b = 0x69
+    b = b + 69
 
     # instruction
-    w = b * b
+    b = b + b
 
     # print instruction
-    Print(w)
+    print(5+5)
 
 # End comment
 End

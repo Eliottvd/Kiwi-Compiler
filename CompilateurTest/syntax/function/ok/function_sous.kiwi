@@ -1,3 +1,4 @@
+
 # Program 1
 Begin 
     # Function1
@@ -6,9 +7,9 @@ Begin
         return a-b
     }
 
+    word w=0
+    w = Soustraction(10, 5)
 
-    w = Sum(10, 5)
-
-    Print(w)
+    print(w)
 
 End

@@ -1,0 +1,9 @@
+Begin 
+	string monStringIBRA 
+	1++
+	8--
+	15+16
+	word monMot
+	8*8
+	byte monByte
+End

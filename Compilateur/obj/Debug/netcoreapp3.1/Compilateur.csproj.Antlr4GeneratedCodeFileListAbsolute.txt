@@ -1,0 +1,6 @@
+D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\Compilateur\obj\Debug\netcoreapp3.1\DEMOLexer.cs
+D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\Compilateur\obj\Debug\netcoreapp3.1\DEMOParser.cs
+D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\Compilateur\obj\Debug\netcoreapp3.1\DEMOListener.cs
+D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\Compilateur\obj\Debug\netcoreapp3.1\DEMOBaseListener.cs
+D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\Compilateur\obj\Debug\netcoreapp3.1\DEMOVisitor.cs
+D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\Compilateur\obj\Debug\netcoreapp3.1\DEMOBaseVisitor.cs

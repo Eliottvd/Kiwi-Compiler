@@ -3,11 +3,10 @@ Begin
     # Variable déclaration
     byte b = 0x69
     word w = 0x12FF
-    string s = « message »
+    string s = "message"
 
     # print instruction
-    Print(w)
-    Print(message)
-    Print(Sum(w, b))
+    print(w)
+    print(s)
 
 End

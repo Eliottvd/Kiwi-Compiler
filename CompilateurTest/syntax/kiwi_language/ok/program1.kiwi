@@ -1,9 +1,9 @@
 # Program 1
 Begin 
     # Function1
-    word Sum(byte a, byte b)
+    word Sum(byte a, byte c)
     {
-        return a+b
+        return a+c
     }
 
     #constante déclaration
@@ -25,10 +25,10 @@ Begin
     w = Sum(b, 5)
 
     # print instruction
-    Print(w)
-    Print(message)
-    Print(Sum(w, b))
+    print(w)
+    print(s)
+    print(Sum(w, b))
 
-    b = b & 11110000b
+    b = b & 0b11110000
 
 End

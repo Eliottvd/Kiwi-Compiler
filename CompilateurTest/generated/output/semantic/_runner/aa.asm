@@ -1,22 +1,51 @@
 data segment
-	msg db "My message$"
+    b DW 0
+    b2 DW 10
+    msg db "My message$"
 data ends
 
 code segment
-	assume cs:code, ds:data
+    assume cs:code, ds:data
 start:
-	mov ax, data
-	mov ds, ax
-	mov dx, offset msg
-	mov ah, 09h
-	int 21h
-		
+; initialise var
+    MOV [b],0
+    MOV [b2],10
 
-	mov ah, 4ch
-	int 21h
+    MOV AX,0
+    ADD AX,[b]
+    CALL print_ax
+    MOV AX,5
+    ADD AX,[b]
+    CALL print_ax
+    MOV AX,[b2]
+    ADD AX,10
+    CALL print_ax
+    MOV AX,5
+    ADD AX,5
+    CALL print_ax
+    mov ah, 4ch
+    int 21h
 
-code ends
+PUSHA    MACRO
+    push ax
+    push bx
+    push cx
+    push dx
+    push bp
+    push si
+    push di
+ENDM
 
+
+POPA MACRO
+    pop di
+    pop si
+    pop bp
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+ENDM
 
 
 ;------------------------------------------------
@@ -26,9 +55,9 @@ print_ax PROC
 CMP AX, 0
 JNE print_ax_r
     PUSH AX
-    MOV AL, '0'
-    MOV AH, 0eh
-    INT 10h
+    MOV DL, '0'
+    MOV AH, 02h
+    INT 21h
     POP AX
     RET 
 print_ax_r:
@@ -41,13 +70,14 @@ print_ax_r:
     CALL print_ax_r
     MOV AX, DX
     ADD AL, 30h
-    MOV AH, 0eh
-    INT 10h
+    MOV DL, AL
+    MOV AH, 02h
+    INT 21h
     JMP pn_done
 pn_done:
     POPA
     RET
-ENDP
+print_ax ENDP
 
 
 ;------------------------------------------------
@@ -64,8 +94,7 @@ print_nl PROC
     POP DX 
     POP AX
     RET
-ENDP
+print_nl ENDP
 
-
-
+code ends
 end start

@@ -1,16 +1,61 @@
-data segment
-    msg db "My message$"
-data ends
+.MODEL SMALL
+.STACK 100H
+.DATA
 
-code segment
-    assume cs:code, ds:data
-start:
+
+.CODE
+MAIN PROC FAR
+    MOV AX,@DATA
+    MOV DS,AX
+    ; initialise var
+
+    ; print(5+5)
+    ; 5+5
+    ; 5
     MOV AX,5
-    ADD AX,5
+    push AX
+    ; 5
+    MOV AX,5
+    push AX
+    pop BX
+    pop AX
+    ADD AX, BX
+    push AX
     CALL print_ax
+    ; print(0x05+0x05)
+    ; 0x05+0x05
+    ; 0x05
+    MOV AX,05h
+    push AX
+    ; 0x05
+    MOV AX,05h
+    push AX
+    pop BX
+    pop AX
+    ADD AX, BX
+    push AX
+    CALL print_ax
+    ; print(0b00000101+0b00000101)
+    ; 0b00000101+0b00000101
+    ; 0b00000101
+    MOV AX,00000101b
+    push AX
+    ; 0b00000101
+    MOV AX,00000101b
+    push AX
+    pop BX
+    pop AX
+    ADD AX, BX
+    push AX
+    CALL print_ax
+    ;interrupt to exit
     mov ah, 4ch
     int 21h
+MAIN ENDP
 
+;------------------------------------------------
+;  PUSH tout les registres
+;------------------------------------------------
 PUSHA    MACRO
     push ax
     push bx
@@ -22,6 +67,9 @@ PUSHA    MACRO
 ENDM
 
 
+;------------------------------------------------
+;  POP tout les registres
+;------------------------------------------------
 POPA MACRO
     pop di
     pop si
@@ -36,33 +84,55 @@ ENDM
 ;------------------------------------------------
 ;  Affiche la valeur entiere de AX 
 ;------------------------------------------------
-print_ax PROC
-CMP AX, 0
-JNE print_ax_r
-    PUSH AX
-    MOV DL, '0'
-    MOV AH, 02h
-    INT 21h
-    POP AX
-    RET 
-print_ax_r:
-    PUSHA
-    MOV DX, 0
-    CMP AX, 0
-    JE pn_done
-    MOV BX, 10
-    DIV BX
-    CALL print_ax_r
-    MOV AX, DX
-    ADD AL, 30h
-    MOV DL, AL
-    MOV AH, 02h
-    INT 21h
-    JMP pn_done
-pn_done:
-    POPA
-    RET
-print_ax ENDP
+PRINT_AX PROC
+    cmp ax, 0
+    jne label0
+    ;print 0 if ax is 0
+    mov dx, 48
+    mov ah, 02h
+    int 21h
+    jmp exit
+    
+    label0:
+;initilize count
+mov cx,0
+mov dx,0
+label1:
+    ; if ax is zero
+    cmp ax,0
+    je print1	
+    ;initilize bx to 10
+    mov bx,10
+    ; extract the last digit
+    div bx
+    ;push it in the stack
+    push dx
+    ;increment the count
+    inc cx
+    ;set dx to 0
+    xor dx,dx
+    jmp label1
+print1:
+    ;check if count
+    ;is greater than zero
+    cmp cx,0
+    je exit
+    ;pop the top of stack
+    pop dx
+    ;add 48 so that it
+    ;represents the ASCII
+    ;value of digits
+    add dx,48
+    ;interuppt to print a
+    ;character
+    mov ah,02h
+    int 21h
+    ;decrease the count
+    dec cx
+    jmp print1
+exit:
+    ret
+PRINT_AX ENDP 
 
 
 ;------------------------------------------------
@@ -81,5 +151,4 @@ print_nl PROC
     RET
 print_nl ENDP
 
-code ends
-end start
+END MAIN

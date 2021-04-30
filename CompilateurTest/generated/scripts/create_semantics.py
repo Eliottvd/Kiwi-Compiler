@@ -4,7 +4,7 @@ import io
 
 # True ferme dosbox et crée un fichier de sortie
 # False ne ferme pas dosbox
-redirectAndClose = "false";
+redirectAndClose = "true";
 
 filePath=os.path.dirname(os.path.realpath(__file__))
 semanticDir=os.path.join(filePath, "../../semantic") 
@@ -40,7 +40,7 @@ for serie in [x for x in os.listdir(semanticDir) if not x.startswith(".")]:
             #Get the expected result
             with open(in_file, "r", encoding="utf-8") as kiwiFile:
                 expectedOutput = [i.strip().lstrip("#") for i in kiwiFile.readlines() if i.startswith("###") ]
-                expectedOutput = "\n".join(expectedOutput)
+                expectedOutput = "".join(expectedOutput)
                 expectedOutput = repr(expectedOutput).strip("'")
                 print(expectedOutput)
 
@@ -55,7 +55,7 @@ for serie in [x for x in os.listdir(semanticDir) if not x.startswith(".")]:
             writer.write(f"            Program.Compile(@\"{in_file}\", \n")
             writer.write(f"                    @\"{out_file}\");\n\n")
             writer.write(f"            var res = AssemblyRunner.Start(RootFolder, \"{serie}\",  @\"{inputFile.replace('kiwi','asm')}\", {redirectAndClose});\n")
-            writer.write(f"            Assert.AreEqual(res, \"{expectedOutput}\", \"Le résultat de sortie de l'assembleur n'est pas celui attentdu\");\n")
+            writer.write(f"            Assert.AreEqual(\"{expectedOutput}\", res, \"Le résultat de sortie de l'assembleur n'est pas celui attentdu\");\n")
             writer.write("        }\n\n")
              
         

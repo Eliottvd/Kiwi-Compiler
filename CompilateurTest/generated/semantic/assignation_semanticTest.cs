@@ -12,5 +12,41 @@ namespace Compilateur.Tests
     //
     // Serie assignation 
     //
+        [TestMethod()]
+        public void testassignation_assign_instruction(){
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\assignation\assign_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\assignation\assign_instruction.asm");
+
+            var res = AssemblyRunner.Start(RootFolder, "assignation",  @"assign_instruction.asm", true);
+            Assert.AreEqual("69", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+        }
+
+        [TestMethod()]
+        public void testassignation_complex_assign_instruction(){
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\assignation\complex_assign_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\assignation\complex_assign_instruction.asm");
+
+            var res = AssemblyRunner.Start(RootFolder, "assignation",  @"complex_assign_instruction.asm", true);
+            Assert.AreEqual("2555", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+        }
+
+        [TestMethod()]
+        public void testassignation_multi_assign_instruction(){
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\assignation\multi_assign_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\assignation\multi_assign_instruction.asm");
+
+            var res = AssemblyRunner.Start(RootFolder, "assignation",  @"multi_assign_instruction.asm", true);
+            Assert.AreEqual("6925505", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+        }
+
+        [TestMethod()]
+        public void testassignation_paranthesis_assign_instruction(){
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\assignation\paranthesis_assign_instruction.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\assignation\paranthesis_assign_instruction.asm");
+
+            var res = AssemblyRunner.Start(RootFolder, "assignation",  @"paranthesis_assign_instruction.asm", true);
+            Assert.AreEqual("50125", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+        }
+
     }
 }

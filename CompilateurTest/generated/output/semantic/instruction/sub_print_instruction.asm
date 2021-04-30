@@ -6,6 +6,7 @@ code segment
     assume cs:code, ds:data
 start:
     CALL print_ax
+    CALL print_ax
     mov ah, 4ch
     int 21h
 

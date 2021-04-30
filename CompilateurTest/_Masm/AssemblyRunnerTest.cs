@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using System.Reflection;
-using Compilateur.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CompilateurTest._Masm
@@ -13,14 +11,13 @@ namespace CompilateurTest._Masm
         [TestMethod()]
         public void AssemblyRunnerAA_asm()
         {
-            AssemblyRunner.Start(RootFolder, "_runner", "aa.asm");
+            AssemblyRunner.Start(RootFolder, "_runner", "aa.asm", true);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(MasmException))]
         public void AssemblyRunnerBB_asmExceptionExpected()
         {
-            AssemblyRunner.Start(RootFolder, "_runner", "bb.asm");
+            AssemblyRunner.Start(RootFolder, "_runner", "bb.asm", true);
         }
 
         [TestMethod]

@@ -5,12 +5,11 @@ import DEMOWords;
 // Program
 
 demo: BEGIN
-         declaration*
-         instruction*
+         (declaration|instruction)*
       END 
       ;
 
-declaration: type=(BYTE|WORD|STRING) ID       #DeclaByte
+declaration: type=(BYTE|WORD|STRING) ID       #Decl
              ;
 
 instruction: expr                             #InstExpr

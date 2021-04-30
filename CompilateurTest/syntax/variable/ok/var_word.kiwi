@@ -7,5 +7,6 @@ Begin
     word w2
     word w3
 
+    NOP
 
 End

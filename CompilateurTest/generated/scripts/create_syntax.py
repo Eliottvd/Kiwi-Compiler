@@ -53,9 +53,17 @@ for serie in [x for x in os.listdir(syntaxDir) if not x.startswith(".")]:
             os.makedirs(out_file, exist_ok = True)
             out_file = os.path.join(out_file, f"{inputFile.replace('kiwi','asm')}")
 
+            #Get the expected result
+            with open(in_file, "r", encoding="utf-8") as kiwiFile:
+                expectedException = [i.strip().lstrip("#") for i in kiwiFile.readlines() if i.startswith("####") ]
+                if len(expectedException) > 0:
+                    expectedException = expectedException[0]
+                else:
+                    expectedException = "ParsingException"
+                print(expectedException)
 
             writer.write("        [TestMethod()]\n")
-            writer.write("        [ExpectedException(typeof(ParsingException))]\n")
+            writer.write(f"        [ExpectedException(typeof({expectedException}))]\n")
             name = inputFile.replace(".kiwi", "")
             writer.write(f"        public void test{serie}_{name}_ko(){{\n")
             writer.write(f"            Program.Compile(@\"{in_file}\", \n")

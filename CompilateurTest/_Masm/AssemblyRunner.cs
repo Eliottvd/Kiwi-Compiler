@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
 using Compilateur.Exception;
 
 namespace CompilateurTest._Masm
@@ -26,7 +25,8 @@ namespace CompilateurTest._Masm
 
             var linkPath = Path.Combine("c:", @"_Masm\MP\link.exe");
             linkPath = To8_3(linkPath);
-            
+
+            var bat1File = Path.Combine(mountFolder, @"generated\output\semantic\", serie);
             string generatedPath = Path.Combine(@"c:\generated\output\semantic\", serie);
             generatedPath = To8_3(generatedPath);
 
@@ -36,11 +36,14 @@ namespace CompilateurTest._Masm
             var outputFile = Path.Combine(generatedPath, fi.Name.Replace(".asm",".txt"));
             var exeFile = Path.Combine(generatedPath, fi.Name.Replace(".asm",".exe"));
             var logFile = Path.Combine(fi.Name.Replace(".asm",".log"));
+            var bat2File = Path.Combine(fi.Name.Replace(".asm",".bat"));
             asmFile = To8_3(asmFile);
             objFile = To8_3(objFile);
             outputFile = To8_3(outputFile);
             exeFile = To8_3(exeFile);
             logFile = To8_3(logFile);
+            bat2File = To8_3(bat2File);
+            bat1File = Path.Combine(bat1File, bat2File);
 
             ProcessStartInfo psi = new ProcessStartInfo()
             {
@@ -57,23 +60,27 @@ namespace CompilateurTest._Masm
             // Change disk
             psi.Arguments += " -c c: -c \"cd "+generatedPath+"\"";
             // Compile assembly
-            psi.Arguments += " -c \"" + masmPath + " " + asmFile + ",,,,,, > " + logFile+ "\"";
+            List<string> bat = new List<string>();
+            bat.Add("del " + exeFile); 
+            bat.Add(masmPath + " " + asmFile + ",,,,,, > " + logFile);
             // Link obj file
-            psi.Arguments += " -c \"" + linkPath + " " + objFile + ",,,,, >> " + logFile+ "\"";
+            bat.Add(linkPath + " " + objFile + ",,,,, >> " + logFile);
             // Remove tmp files
-            psi.Arguments += " -c \"del *.crf\" -c \"del *.lst\" -c \"del *.obj\" -c \"del *.map\"";
+            bat.Add("del *.crf"); bat.Add("del *.lst"); bat.Add("del *.obj"); bat.Add("del *.map");
             if( redirectAndClose)
             {
                 // Run executable and redirect to file
-                psi.Arguments += " -c \"" + exeFile + " > " + outputFile + "\" ";
+                bat.Add(exeFile + " > " + outputFile );
                 // Exit from DosBox
-                psi.Arguments += " -c \" exit -1 \"";
+                bat.Add("exit -1");
             }
             else
             {
                 // Run executable and redirect to file
-                psi.Arguments += " -c \"" + exeFile + "\" ";
+                bat.Add("\"" + exeFile + "\"");
             }
+            psi.Arguments += " -c \"" + bat2File + "\" ";
+            File.WriteAllLines(bat1File, bat);
 
             Process p = new Process();
             p.StartInfo = psi;

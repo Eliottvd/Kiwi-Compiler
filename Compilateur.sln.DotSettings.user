@@ -1,0 +1,17 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b5639ca4_002D267f_002D45ac_002D81f7_002D0a4abc8a900e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="VisitDemoTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::Compilateur.Tests.assignation_semanticTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cd3f3655_002D4ef5_002D415a_002D8569_002D9cb412077c96/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DemoVisitorTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::Compilateur.Tests.SemanticTests.VisitDemoTest2&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::CompilateurTest._Masm.AssemblyRunnerTest.AssemblyRunnerAA_asm&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::CompilateurTest._Masm.AssemblyRunnerTest.To8_3Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::Compilateur.Tests.assignation_SyntaxTest.testassignation_bad_declaration_bin_ko&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::Compilateur.Tests.instruction_semanticTest.testinstruction_add_instruction&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::Compilateur.Tests.assignation_SyntaxTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::4044726E-D070-47FA-9E81-D34C55A59413::.NETCoreApp,Version=v3.1::Compilateur.Tests.comment_SyntaxTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
