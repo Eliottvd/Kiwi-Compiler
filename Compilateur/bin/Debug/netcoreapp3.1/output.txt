@@ -2,7 +2,7 @@ data segment
     msg db "My message$"
     maString db '$'
     monMot dw 0
-    monByt db 0
+    monByte db 0
 data ends
 
 code segment
@@ -10,12 +10,23 @@ code segment
 start:
     MOV AX,1
     INC AX
+    POP ax
+    CALL print_ax
     MOV AX,8
     DEC AX
+    POP ax
+    CALL print_ax
     MOV AX,15
     MOV BX,16
     ADD AX,BX
+    POP ax
+    CALL print_ax
     MOV maString, 4
+    MOV AX,8
+    MOV BX,8
+    ADD AX,BX
+    POP ax
+    CALL print_ax
     mov ah, 4ch
     int 21h
 

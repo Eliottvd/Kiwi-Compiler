@@ -113,6 +113,14 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitRightExpDecrement([NotNull] DEMOParser.RightExpDecrementContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExpID</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExpID([NotNull] DEMOParser.RightExpIDContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprNumber</c>
 	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
 	/// </summary>

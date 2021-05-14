@@ -91,7 +91,7 @@ namespace Compilateur.Generator
 
         public void PrintByteDeclaration(string id)
         {
-            this.writer.WriteLine("    " + id + " db 0");
+            this.writer.WriteLine("    " + id + " dw 0");
         }
 
         public void PrintWordDeclaration(string id)
@@ -101,7 +101,7 @@ namespace Compilateur.Generator
 
         public void PrintStringDeclaration(string id)
         {
-            this.writer.WriteLine("    " + id + " db '$'");
+            this.writer.WriteLine("    " + id + " dw '$'");
         }
 
         public void PrintMov(AssemblyRegister register, byte b)
@@ -112,31 +112,57 @@ namespace Compilateur.Generator
         public void PrintInc(AssemblyRegister register)
         {
             this.writer.WriteLine("    INC " + register);
+            if (register != AssemblyRegister.AX)
+            {
+                this.writer.WriteLine("    MOV ax, " + register);
+            }
         }
 
         public void PrintDec(AssemblyRegister register)
         {
             this.writer.WriteLine("    DEC " + register);
+            if (register != AssemblyRegister.AX)
+            {
+                this.writer.WriteLine("    MOV ax, " + register);
+            }
         }
 
         public void PrintAdd(AssemblyRegister register, AssemblyRegister register2)
         {
             this.writer.WriteLine("    ADD " + register + "," + register2);
+            if (register != AssemblyRegister.AX)
+            {
+                this.writer.WriteLine("    MOV ax, " + register);
+            }
         }
 
         public void PrintSub(AssemblyRegister register, AssemblyRegister register2)
         {
             this.writer.WriteLine("    SUB " + register + "," + register2);
+            if (register != AssemblyRegister.AX)
+            {
+                this.writer.WriteLine("    MOV ax, " + register);
+            }
         }
 
         public void PrintNot(AssemblyRegister register)
         {
             this.writer.WriteLine("    NOT " + register);
+            if (register != AssemblyRegister.AX)
+            {
+                this.writer.WriteLine("    MOV ax, " + register);
+            }
         }
 
         public void PrintAssignation(string id, int value)
         {
-            this.writer.WriteLine("    MOV " + id + ", " + value);
+            this.writer.WriteLine("    MOV [" + id + "], " + value);
+            this.writer.WriteLine("    MOV ax, 1"); //L'assignation a été faite
+        }
+
+        public void PrintId(string id)
+        {
+            this.writer.WriteLine("    MOV ax, [" + id + "]");
         }
 
 
@@ -294,9 +320,14 @@ namespace Compilateur.Generator
 
         public void PrintCallPrintAX()
         {
+            //this.writer.WriteLine("    POP ax"); //On verra comment on gere ca mieux plus tard 
             this.writer.WriteLine("    CALL print_ax");
         }
 
+        public void PrintCallPrintEndl()
+        {
+            this.writer.WriteLine("    CALL print_nl");
+        }
 
         #endregion Print PopA ...
     }

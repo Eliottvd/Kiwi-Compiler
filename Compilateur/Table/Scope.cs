@@ -5,7 +5,7 @@ using System.Text;
 namespace Compilateur.Table
 {
     public class Scope
-    {
+    { 
         public string Name { get; set; }
 
         public Scope(string name)

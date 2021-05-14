@@ -19,8 +19,7 @@ EQUAL: '=';
 BYTE: 'byte';
 WORD: 'word';
 STRING: 'string';
-
- 
+STRING_LITERAL : '"' (.)*? '"';
 
 NUMBER: (DIGIT)+;
 ID: (LETTER)(LETTER|DIGIT)*;

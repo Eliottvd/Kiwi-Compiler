@@ -89,25 +89,27 @@ namespace Compilateur
         }
 
         public override string VisitInstPrint(DEMOParser.InstPrintContext context)
-        {
+        { 
             this.Visit(context.expr());
             this.Printer.PrintCallPrintAX();
+            this.Printer.PrintCallPrintEndl();
             return string.Empty;
         }
 
         public override string VisitDecl(DEMOParser.DeclContext context)
         {
-
-            this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText()));
             switch (context.type.Type)
             {
                 case DEMOLexer.BYTE:
+                    this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarByte));
                     Printer.PrintByteDeclaration(context.ID().GetText());
                     break;
                 case DEMOLexer.WORD:
+                    this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarWord));
                     Printer.PrintWordDeclaration(context.ID().GetText());
                     break;
                 case DEMOLexer.STRING:
+                    this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarWord));
                     Printer.PrintStringDeclaration(context.ID().GetText());
                     break;
             }
@@ -127,6 +129,20 @@ namespace Compilateur
             }
 
             return base.VisitInstAssignation(context);
+        }
+
+
+        public override string VisitRightExpID(DEMOParser.RightExpIDContext context)
+        {
+            if (this.SymbolTable.Entries.Find(e => e.Name == context.ID().GetText()) != null)
+            {
+                Printer.PrintId(context.ID().GetText());
+            }
+            else
+            {
+                throw new NotFoundSymbolException("Cannot find " + context.ID().GetText() + ". Please make sure it has been declared.");
+            }
+            return base.VisitRightExpID(context);
         }
     }
 }

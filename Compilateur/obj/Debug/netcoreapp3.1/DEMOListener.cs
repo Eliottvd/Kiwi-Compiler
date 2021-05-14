@@ -162,6 +162,19 @@ public interface IDEMOListener : IParseTreeListener {
 	void ExitRightExpDecrement([NotNull] DEMOParser.RightExpDecrementContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpID</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExpID([NotNull] DEMOParser.RightExpIDContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpID</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExpID([NotNull] DEMOParser.RightExpIDContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprNumber</c>
 	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
 	/// </summary>

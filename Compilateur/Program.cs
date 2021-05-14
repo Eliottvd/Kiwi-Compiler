@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using Antlr4.Runtime;
 using Compilateur.Exception;
 using Compilateur.Generator;
@@ -26,18 +27,27 @@ namespace Compilateur
 
         public static void Compile(string path, string output)
         {
-            var sourceCode = File.ReadAllText(path);
-            // Check syntax
-            var tree = Parse(sourceCode);
-            
-            //Et la table des symboles? 
-            
-            // Genrate code
-            var asmCode = PrintAssemblyCode(tree);
-            // Create output directory 
-            CreateFolderStructur(output);
-            // Print code to output file
-            File.WriteAllText(output, asmCode);
+            var regex = @"([A-Z]|[a-z]|[0-9])*.kiwi";
+            Match match = Regex.Match(path, regex);
+            if (path != string.Empty && match.Success)
+            {
+                var sourceCode = File.ReadAllText(path);
+                // Check syntax
+                var tree = Parse(sourceCode);
+                
+                //Et la table des symboles? 
+                
+                // Genrate code
+                var asmCode = PrintAssemblyCode(tree);
+                // Create output directory 
+                CreateFolderStructur(output);
+                // Print code to output file
+                File.WriteAllText(output, asmCode);
+            }
+            else
+            {
+                Console.WriteLine("Wrong input type ! Pls provide a .kiwi file.");
+            }
         }
 
         private static void CreateFolderStructur(string output)

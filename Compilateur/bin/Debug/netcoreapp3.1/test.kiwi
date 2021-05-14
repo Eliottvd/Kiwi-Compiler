@@ -1,11 +1,12 @@
 Begin 
 	string maString 
-	1++
-	8--
-	15+16
+	print(1++)
+	print(8--)
+	print(15+16)
 	word monMot
-	8*8
-	byte monByt
+	byte monByte
+	monByte = 4
 	maString = 4
-	ibra = 8
+	print(8+8)
+	print(monByte)
 End

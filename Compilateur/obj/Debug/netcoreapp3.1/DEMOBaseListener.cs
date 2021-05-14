@@ -186,6 +186,21 @@ public partial class DEMOBaseListener : IDEMOListener {
 	public virtual void ExitRightExpDecrement([NotNull] DEMOParser.RightExpDecrementContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpID</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExpID([NotNull] DEMOParser.RightExpIDContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpID</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExpID([NotNull] DEMOParser.RightExpIDContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprNumber</c>
 	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
 	/// <para>The default implementation does nothing.</para>

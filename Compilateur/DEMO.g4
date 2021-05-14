@@ -23,8 +23,8 @@ expr: exprent op=(PLUS|MINUS) exprent         #RightExprPlusMinus
       | NOT exprent                           #RightExpNot
       | exprent INC                           #RightExpIncrement
       | exprent DEC                           #RightExpDecrement
+      | ID                                    #RightExpID
       ;
 
 exprent: NUMBER                               #RightExprNumber
          ;
-
