@@ -33,8 +33,8 @@ public partial class DEMOParser : Parser {
 	public const int
 		PRINT=1, LPAR=2, RPAR=3, COMMA=4, PLUS=5, MINUS=6, BEGIN=7, END=8, TRUE=9, 
 		FALSE=10, NOP=11, NOT=12, INC=13, DEC=14, EQUAL=15, BYTE=16, WORD=17, 
-		STRING=18, STRING_LITERAL=19, NUMBER=20, ID=21, COMMENT=22, NEWLINE=23, 
-		WS=24;
+		STRING=18, STRING_LITERAL=19, CONST=20, NUMBER=21, ID=22, HEXA8=23, HEXA16=24, 
+		BINARY8=25, BINARY16=26, COMMENT=27, NEWLINE=28, WS=29;
 	public const int
 		RULE_demo = 0, RULE_declaration = 1, RULE_instruction = 2, RULE_expr = 3, 
 		RULE_exprent = 4;
@@ -45,12 +45,13 @@ public partial class DEMOParser : Parser {
 	private static readonly string[] _LiteralNames = {
 		null, "'print'", "'('", "')'", "','", "'+'", "'-'", "'Begin'", "'End'", 
 		"'TRUE'", "'FALSE'", "'NOP'", "'!'", "'++'", "'--'", "'='", "'byte'", 
-		"'word'", "'string'"
+		"'word'", "'string'", null, "'const'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "PRINT", "LPAR", "RPAR", "COMMA", "PLUS", "MINUS", "BEGIN", "END", 
 		"TRUE", "FALSE", "NOP", "NOT", "INC", "DEC", "EQUAL", "BYTE", "WORD", 
-		"STRING", "STRING_LITERAL", "NUMBER", "ID", "COMMENT", "NEWLINE", "WS"
+		"STRING", "STRING_LITERAL", "CONST", "NUMBER", "ID", "HEXA8", "HEXA16", 
+		"BINARY8", "BINARY16", "COMMENT", "NEWLINE", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -149,7 +150,7 @@ public partial class DEMOParser : Parser {
 			State = 15;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << NOP) | (1L << NOT) | (1L << BYTE) | (1L << WORD) | (1L << STRING) | (1L << NUMBER) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << LPAR) | (1L << NOP) | (1L << NOT) | (1L << BYTE) | (1L << WORD) | (1L << STRING) | (1L << CONST) | (1L << NUMBER) | (1L << ID) | (1L << HEXA8) | (1L << HEXA16) | (1L << BINARY8) | (1L << BINARY16))) != 0)) {
 				{
 				State = 13;
 				_errHandler.Sync(this);
@@ -157,15 +158,21 @@ public partial class DEMOParser : Parser {
 				case BYTE:
 				case WORD:
 				case STRING:
+				case CONST:
 					{
 					State = 11; declaration();
 					}
 					break;
 				case PRINT:
+				case LPAR:
 				case NOP:
 				case NOT:
 				case NUMBER:
 				case ID:
+				case HEXA8:
+				case HEXA16:
+				case BINARY8:
+				case BINARY16:
 					{
 					State = 12; instruction();
 					}
@@ -204,24 +211,46 @@ public partial class DEMOParser : Parser {
 			base.CopyFrom(context);
 		}
 	}
-	public partial class DeclContext : DeclarationContext {
+	public partial class DeclVarContext : DeclarationContext {
 		public IToken type;
 		public ITerminalNode ID() { return GetToken(DEMOParser.ID, 0); }
 		public ITerminalNode BYTE() { return GetToken(DEMOParser.BYTE, 0); }
 		public ITerminalNode WORD() { return GetToken(DEMOParser.WORD, 0); }
 		public ITerminalNode STRING() { return GetToken(DEMOParser.STRING, 0); }
-		public DeclContext(DeclarationContext context) { CopyFrom(context); }
+		public DeclVarContext(DeclarationContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
 			IDEMOListener typedListener = listener as IDEMOListener;
-			if (typedListener != null) typedListener.EnterDecl(this);
+			if (typedListener != null) typedListener.EnterDeclVar(this);
 		}
 		public override void ExitRule(IParseTreeListener listener) {
 			IDEMOListener typedListener = listener as IDEMOListener;
-			if (typedListener != null) typedListener.ExitDecl(this);
+			if (typedListener != null) typedListener.ExitDeclVar(this);
 		}
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IDEMOVisitor<TResult> typedVisitor = visitor as IDEMOVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitDecl(this);
+			if (typedVisitor != null) return typedVisitor.VisitDeclVar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DeclConstContext : DeclarationContext {
+		public IToken type;
+		public ITerminalNode CONST() { return GetToken(DEMOParser.CONST, 0); }
+		public ITerminalNode ID() { return GetToken(DEMOParser.ID, 0); }
+		public ITerminalNode EQUAL() { return GetToken(DEMOParser.EQUAL, 0); }
+		public ITerminalNode NUMBER() { return GetToken(DEMOParser.NUMBER, 0); }
+		public ITerminalNode STRING_LITERAL() { return GetToken(DEMOParser.STRING_LITERAL, 0); }
+		public DeclConstContext(DeclarationContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.EnterDeclConst(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.ExitDeclConst(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IDEMOVisitor<TResult> typedVisitor = visitor as IDEMOVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDeclConst(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -232,23 +261,55 @@ public partial class DEMOParser : Parser {
 		EnterRule(_localctx, 2, RULE_declaration);
 		int _la;
 		try {
-			_localctx = new DeclContext(_localctx);
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 20;
-			((DeclContext)_localctx).type = _input.Lt(1);
-			_la = _input.La(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BYTE) | (1L << WORD) | (1L << STRING))) != 0)) ) {
-				((DeclContext)_localctx).type = _errHandler.RecoverInline(this);
-			} else {
-				if (_input.La(1) == TokenConstants.Eof) {
-					matchedEOF = true;
-				}
+			State = 26;
+			_errHandler.Sync(this);
+			switch (_input.La(1)) {
+			case BYTE:
+			case WORD:
+			case STRING:
+				_localctx = new DeclVarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 20;
+				((DeclVarContext)_localctx).type = _input.Lt(1);
+				_la = _input.La(1);
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BYTE) | (1L << WORD) | (1L << STRING))) != 0)) ) {
+					((DeclVarContext)_localctx).type = _errHandler.RecoverInline(this);
+				} else {
+					if (_input.La(1) == TokenConstants.Eof) {
+						matchedEOF = true;
+					}
 
-				_errHandler.ReportMatch(this);
-				Consume();
-			}
-			State = 21; Match(ID);
+					_errHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 21; Match(ID);
+				}
+				break;
+			case CONST:
+				_localctx = new DeclConstContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 22; Match(CONST);
+				State = 23; Match(ID);
+				State = 24; Match(EQUAL);
+				State = 25;
+				((DeclConstContext)_localctx).type = _input.Lt(1);
+				_la = _input.La(1);
+				if ( !(_la==STRING_LITERAL || _la==NUMBER) ) {
+					((DeclConstContext)_localctx).type = _errHandler.RecoverInline(this);
+				} else {
+					if (_input.La(1) == TokenConstants.Eof) {
+						matchedEOF = true;
+					}
+
+					_errHandler.ReportMatch(this);
+					Consume();
+				}
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -359,14 +420,14 @@ public partial class DEMOParser : Parser {
 		InstructionContext _localctx = new InstructionContext(_ctx, State);
 		EnterRule(_localctx, 4, RULE_instruction);
 		try {
-			State = 33;
+			State = 38;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,2,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				_localctx = new InstExprContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 23; expr();
+				State = 28; expr(0);
 				}
 				break;
 
@@ -374,10 +435,10 @@ public partial class DEMOParser : Parser {
 				_localctx = new InstPrintContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 24; Match(PRINT);
-				State = 25; Match(LPAR);
-				State = 26; expr();
-				State = 27; Match(RPAR);
+				State = 29; Match(PRINT);
+				State = 30; Match(LPAR);
+				State = 31; expr(0);
+				State = 32; Match(RPAR);
 				}
 				break;
 
@@ -385,7 +446,7 @@ public partial class DEMOParser : Parser {
 				_localctx = new InstNOPContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 29; Match(NOP);
+				State = 34; Match(NOP);
 				}
 				break;
 
@@ -393,9 +454,9 @@ public partial class DEMOParser : Parser {
 				_localctx = new InstAssignationContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 30; Match(ID);
-				State = 31; Match(EQUAL);
-				State = 32; expr();
+				State = 35; Match(ID);
+				State = 36; Match(EQUAL);
+				State = 37; expr(0);
 				}
 				break;
 			}
@@ -425,11 +486,11 @@ public partial class DEMOParser : Parser {
 	}
 	public partial class RightExprPlusMinusContext : ExprContext {
 		public IToken op;
-		public ExprentContext[] exprent() {
-			return GetRuleContexts<ExprentContext>();
+		public ExprContext[] expr() {
+			return GetRuleContexts<ExprContext>();
 		}
-		public ExprentContext exprent(int i) {
-			return GetRuleContext<ExprentContext>(i);
+		public ExprContext expr(int i) {
+			return GetRuleContext<ExprContext>(i);
 		}
 		public ITerminalNode PLUS() { return GetToken(DEMOParser.PLUS, 0); }
 		public ITerminalNode MINUS() { return GetToken(DEMOParser.MINUS, 0); }
@@ -469,8 +530,8 @@ public partial class DEMOParser : Parser {
 	}
 	public partial class RightExpNotContext : ExprContext {
 		public ITerminalNode NOT() { return GetToken(DEMOParser.NOT, 0); }
-		public ExprentContext exprent() {
-			return GetRuleContext<ExprentContext>(0);
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
 		}
 		public RightExpNotContext(ExprContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
@@ -488,8 +549,8 @@ public partial class DEMOParser : Parser {
 		}
 	}
 	public partial class RightExpIncrementContext : ExprContext {
-		public ExprentContext exprent() {
-			return GetRuleContext<ExprentContext>(0);
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
 		}
 		public ITerminalNode INC() { return GetToken(DEMOParser.INC, 0); }
 		public RightExpIncrementContext(ExprContext context) { CopyFrom(context); }
@@ -508,8 +569,8 @@ public partial class DEMOParser : Parser {
 		}
 	}
 	public partial class RightExpDecrementContext : ExprContext {
-		public ExprentContext exprent() {
-			return GetRuleContext<ExprentContext>(0);
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
 		}
 		public ITerminalNode DEC() { return GetToken(DEMOParser.DEC, 0); }
 		public RightExpDecrementContext(ExprContext context) { CopyFrom(context); }
@@ -544,80 +605,152 @@ public partial class DEMOParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class RightExpParContext : ExprContext {
+		public ITerminalNode LPAR() { return GetToken(DEMOParser.LPAR, 0); }
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
+		}
+		public ITerminalNode RPAR() { return GetToken(DEMOParser.RPAR, 0); }
+		public RightExpParContext(ExprContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.EnterRightExpPar(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.ExitRightExpPar(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IDEMOVisitor<TResult> typedVisitor = visitor as IDEMOVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRightExpPar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 
 	[RuleVersion(0)]
 	public ExprContext expr() {
-		ExprContext _localctx = new ExprContext(_ctx, State);
-		EnterRule(_localctx, 6, RULE_expr);
+		return expr(0);
+	}
+
+	private ExprContext expr(int _p) {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = State;
+		ExprContext _localctx = new ExprContext(_ctx, _parentState);
+		ExprContext _prevctx = _localctx;
+		int _startState = 6;
+		EnterRecursionRule(_localctx, 6, RULE_expr, _p);
 		int _la;
 		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
 			State = 49;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,3,_ctx) ) {
-			case 1:
-				_localctx = new RightExprPlusMinusContext(_localctx);
-				EnterOuterAlt(_localctx, 1);
+			switch (_input.La(1)) {
+			case NUMBER:
+			case HEXA8:
+			case HEXA16:
+			case BINARY8:
+			case BINARY16:
 				{
-				State = 35; exprent();
-				State = 36;
-				((RightExprPlusMinusContext)_localctx).op = _input.Lt(1);
-				_la = _input.La(1);
-				if ( !(_la==PLUS || _la==MINUS) ) {
-					((RightExprPlusMinusContext)_localctx).op = _errHandler.RecoverInline(this);
-				} else {
-					if (_input.La(1) == TokenConstants.Eof) {
-						matchedEOF = true;
-					}
-
-					_errHandler.ReportMatch(this);
-					Consume();
-				}
-				State = 37; exprent();
-				}
-				break;
-
-			case 2:
 				_localctx = new RightExprEntContext(_localctx);
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 39; exprent();
-				}
-				break;
+				_ctx = _localctx;
+				_prevctx = _localctx;
 
-			case 3:
-				_localctx = new RightExpNotContext(_localctx);
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 40; Match(NOT);
 				State = 41; exprent();
 				}
 				break;
-
-			case 4:
-				_localctx = new RightExpIncrementContext(_localctx);
-				EnterOuterAlt(_localctx, 4);
+			case NOT:
 				{
-				State = 42; exprent();
-				State = 43; Match(INC);
+				_localctx = new RightExpNotContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				State = 42; Match(NOT);
+				State = 43; expr(5);
 				}
 				break;
-
-			case 5:
-				_localctx = new RightExpDecrementContext(_localctx);
-				EnterOuterAlt(_localctx, 5);
+			case ID:
 				{
-				State = 45; exprent();
-				State = 46; Match(DEC);
-				}
-				break;
-
-			case 6:
 				_localctx = new RightExpIDContext(_localctx);
-				EnterOuterAlt(_localctx, 6);
-				{
-				State = 48; Match(ID);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				State = 44; Match(ID);
 				}
 				break;
+			case LPAR:
+				{
+				_localctx = new RightExpParContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				State = 45; Match(LPAR);
+				State = 46; expr(0);
+				State = 47; Match(RPAR);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			_ctx.stop = _input.Lt(-1);
+			State = 60;
+			_errHandler.Sync(this);
+			_alt = Interpreter.AdaptivePredict(_input,6,_ctx);
+			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) TriggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					State = 58;
+					_errHandler.Sync(this);
+					switch ( Interpreter.AdaptivePredict(_input,5,_ctx) ) {
+					case 1:
+						{
+						_localctx = new RightExprPlusMinusContext(new ExprContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expr);
+						State = 51;
+						if (!(Precpred(_ctx, 7))) throw new FailedPredicateException(this, "Precpred(_ctx, 7)");
+						State = 52;
+						((RightExprPlusMinusContext)_localctx).op = _input.Lt(1);
+						_la = _input.La(1);
+						if ( !(_la==PLUS || _la==MINUS) ) {
+							((RightExprPlusMinusContext)_localctx).op = _errHandler.RecoverInline(this);
+						} else {
+							if (_input.La(1) == TokenConstants.Eof) {
+								matchedEOF = true;
+							}
+
+							_errHandler.ReportMatch(this);
+							Consume();
+						}
+						State = 53; expr(8);
+						}
+						break;
+
+					case 2:
+						{
+						_localctx = new RightExpIncrementContext(new ExprContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expr);
+						State = 54;
+						if (!(Precpred(_ctx, 4))) throw new FailedPredicateException(this, "Precpred(_ctx, 4)");
+						State = 55; Match(INC);
+						}
+						break;
+
+					case 3:
+						{
+						_localctx = new RightExpDecrementContext(new ExprContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expr);
+						State = 56;
+						if (!(Precpred(_ctx, 3))) throw new FailedPredicateException(this, "Precpred(_ctx, 3)");
+						State = 57; Match(DEC);
+						}
+						break;
+					}
+					} 
+				}
+				State = 62;
+				_errHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(_input,6,_ctx);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -626,7 +759,7 @@ public partial class DEMOParser : Parser {
 			_errHandler.Recover(this, re);
 		}
 		finally {
-			ExitRule();
+			UnrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
@@ -660,16 +793,120 @@ public partial class DEMOParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class RightExprHexa8Context : ExprentContext {
+		public ITerminalNode HEXA8() { return GetToken(DEMOParser.HEXA8, 0); }
+		public RightExprHexa8Context(ExprentContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.EnterRightExprHexa8(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.ExitRightExprHexa8(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IDEMOVisitor<TResult> typedVisitor = visitor as IDEMOVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRightExprHexa8(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class RightExprHexa16Context : ExprentContext {
+		public ITerminalNode HEXA16() { return GetToken(DEMOParser.HEXA16, 0); }
+		public RightExprHexa16Context(ExprentContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.EnterRightExprHexa16(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.ExitRightExprHexa16(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IDEMOVisitor<TResult> typedVisitor = visitor as IDEMOVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRightExprHexa16(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class RightExprBinary8Context : ExprentContext {
+		public ITerminalNode BINARY8() { return GetToken(DEMOParser.BINARY8, 0); }
+		public RightExprBinary8Context(ExprentContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.EnterRightExprBinary8(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.ExitRightExprBinary8(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IDEMOVisitor<TResult> typedVisitor = visitor as IDEMOVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRightExprBinary8(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class RightExprBinary16Context : ExprentContext {
+		public ITerminalNode BINARY16() { return GetToken(DEMOParser.BINARY16, 0); }
+		public RightExprBinary16Context(ExprentContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.EnterRightExprBinary16(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IDEMOListener typedListener = listener as IDEMOListener;
+			if (typedListener != null) typedListener.ExitRightExprBinary16(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IDEMOVisitor<TResult> typedVisitor = visitor as IDEMOVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRightExprBinary16(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 
 	[RuleVersion(0)]
 	public ExprentContext exprent() {
 		ExprentContext _localctx = new ExprentContext(_ctx, State);
 		EnterRule(_localctx, 8, RULE_exprent);
 		try {
-			_localctx = new RightExprNumberContext(_localctx);
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 51; Match(NUMBER);
+			State = 68;
+			_errHandler.Sync(this);
+			switch (_input.La(1)) {
+			case NUMBER:
+				_localctx = new RightExprNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 63; Match(NUMBER);
+				}
+				break;
+			case HEXA8:
+				_localctx = new RightExprHexa8Context(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 64; Match(HEXA8);
+				}
+				break;
+			case HEXA16:
+				_localctx = new RightExprHexa16Context(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 65; Match(HEXA16);
+				}
+				break;
+			case BINARY8:
+				_localctx = new RightExprBinary8Context(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 66; Match(BINARY8);
+				}
+				break;
+			case BINARY16:
+				_localctx = new RightExprBinary16Context(_localctx);
+				EnterOuterAlt(_localctx, 5);
+				{
+				State = 67; Match(BINARY16);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -683,29 +920,53 @@ public partial class DEMOParser : Parser {
 		return _localctx;
 	}
 
+	public override bool Sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
+		switch (ruleIndex) {
+		case 3: return expr_sempred((ExprContext)_localctx, predIndex);
+		}
+		return true;
+	}
+	private bool expr_sempred(ExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 0: return Precpred(_ctx, 7);
+
+		case 1: return Precpred(_ctx, 4);
+
+		case 2: return Precpred(_ctx, 3);
+		}
+		return true;
+	}
+
 	public static readonly string _serializedATN =
-		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x1A\x38\x4\x2\t"+
-		"\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x3\x2\x3\x2\x3\x2\a\x2"+
-		"\x10\n\x2\f\x2\xE\x2\x13\v\x2\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x3\x4\x3\x4"+
-		"\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x5\x4$\n\x4\x3\x5\x3"+
-		"\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5"+
-		"\x3\x5\x5\x5\x34\n\x5\x3\x6\x3\x6\x3\x6\x2\x2\x2\a\x2\x2\x4\x2\x6\x2\b"+
-		"\x2\n\x2\x2\x4\x3\x2\x12\x14\x3\x2\a\b<\x2\f\x3\x2\x2\x2\x4\x16\x3\x2"+
-		"\x2\x2\x6#\x3\x2\x2\x2\b\x33\x3\x2\x2\x2\n\x35\x3\x2\x2\x2\f\x11\a\t\x2"+
-		"\x2\r\x10\x5\x4\x3\x2\xE\x10\x5\x6\x4\x2\xF\r\x3\x2\x2\x2\xF\xE\x3\x2"+
-		"\x2\x2\x10\x13\x3\x2\x2\x2\x11\xF\x3\x2\x2\x2\x11\x12\x3\x2\x2\x2\x12"+
-		"\x14\x3\x2\x2\x2\x13\x11\x3\x2\x2\x2\x14\x15\a\n\x2\x2\x15\x3\x3\x2\x2"+
-		"\x2\x16\x17\t\x2\x2\x2\x17\x18\a\x17\x2\x2\x18\x5\x3\x2\x2\x2\x19$\x5"+
-		"\b\x5\x2\x1A\x1B\a\x3\x2\x2\x1B\x1C\a\x4\x2\x2\x1C\x1D\x5\b\x5\x2\x1D"+
-		"\x1E\a\x5\x2\x2\x1E$\x3\x2\x2\x2\x1F$\a\r\x2\x2 !\a\x17\x2\x2!\"\a\x11"+
-		"\x2\x2\"$\x5\b\x5\x2#\x19\x3\x2\x2\x2#\x1A\x3\x2\x2\x2#\x1F\x3\x2\x2\x2"+
-		"# \x3\x2\x2\x2$\a\x3\x2\x2\x2%&\x5\n\x6\x2&\'\t\x3\x2\x2\'(\x5\n\x6\x2"+
-		"(\x34\x3\x2\x2\x2)\x34\x5\n\x6\x2*+\a\xE\x2\x2+\x34\x5\n\x6\x2,-\x5\n"+
-		"\x6\x2-.\a\xF\x2\x2.\x34\x3\x2\x2\x2/\x30\x5\n\x6\x2\x30\x31\a\x10\x2"+
-		"\x2\x31\x34\x3\x2\x2\x2\x32\x34\a\x17\x2\x2\x33%\x3\x2\x2\x2\x33)\x3\x2"+
-		"\x2\x2\x33*\x3\x2\x2\x2\x33,\x3\x2\x2\x2\x33/\x3\x2\x2\x2\x33\x32\x3\x2"+
-		"\x2\x2\x34\t\x3\x2\x2\x2\x35\x36\a\x16\x2\x2\x36\v\x3\x2\x2\x2\x6\xF\x11"+
-		"#\x33";
+		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x1FI\x4\x2\t\x2"+
+		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x3\x2\x3\x2\x3\x2\a\x2\x10"+
+		"\n\x2\f\x2\xE\x2\x13\v\x2\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3"+
+		"\x3\x5\x3\x1D\n\x3\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3"+
+		"\x4\x3\x4\x5\x4)\n\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5"+
+		"\x3\x5\x5\x5\x34\n\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\a\x5="+
+		"\n\x5\f\x5\xE\x5@\v\x5\x3\x6\x3\x6\x3\x6\x3\x6\x3\x6\x5\x6G\n\x6\x3\x6"+
+		"\x2\x2\x3\b\a\x2\x2\x4\x2\x6\x2\b\x2\n\x2\x2\x5\x3\x2\x12\x14\x4\x2\x15"+
+		"\x15\x17\x17\x3\x2\a\bS\x2\f\x3\x2\x2\x2\x4\x1C\x3\x2\x2\x2\x6(\x3\x2"+
+		"\x2\x2\b\x33\x3\x2\x2\x2\n\x46\x3\x2\x2\x2\f\x11\a\t\x2\x2\r\x10\x5\x4"+
+		"\x3\x2\xE\x10\x5\x6\x4\x2\xF\r\x3\x2\x2\x2\xF\xE\x3\x2\x2\x2\x10\x13\x3"+
+		"\x2\x2\x2\x11\xF\x3\x2\x2\x2\x11\x12\x3\x2\x2\x2\x12\x14\x3\x2\x2\x2\x13"+
+		"\x11\x3\x2\x2\x2\x14\x15\a\n\x2\x2\x15\x3\x3\x2\x2\x2\x16\x17\t\x2\x2"+
+		"\x2\x17\x1D\a\x18\x2\x2\x18\x19\a\x16\x2\x2\x19\x1A\a\x18\x2\x2\x1A\x1B"+
+		"\a\x11\x2\x2\x1B\x1D\t\x3\x2\x2\x1C\x16\x3\x2\x2\x2\x1C\x18\x3\x2\x2\x2"+
+		"\x1D\x5\x3\x2\x2\x2\x1E)\x5\b\x5\x2\x1F \a\x3\x2\x2 !\a\x4\x2\x2!\"\x5"+
+		"\b\x5\x2\"#\a\x5\x2\x2#)\x3\x2\x2\x2$)\a\r\x2\x2%&\a\x18\x2\x2&\'\a\x11"+
+		"\x2\x2\')\x5\b\x5\x2(\x1E\x3\x2\x2\x2(\x1F\x3\x2\x2\x2($\x3\x2\x2\x2("+
+		"%\x3\x2\x2\x2)\a\x3\x2\x2\x2*+\b\x5\x1\x2+\x34\x5\n\x6\x2,-\a\xE\x2\x2"+
+		"-\x34\x5\b\x5\a.\x34\a\x18\x2\x2/\x30\a\x4\x2\x2\x30\x31\x5\b\x5\x2\x31"+
+		"\x32\a\x5\x2\x2\x32\x34\x3\x2\x2\x2\x33*\x3\x2\x2\x2\x33,\x3\x2\x2\x2"+
+		"\x33.\x3\x2\x2\x2\x33/\x3\x2\x2\x2\x34>\x3\x2\x2\x2\x35\x36\f\t\x2\x2"+
+		"\x36\x37\t\x4\x2\x2\x37=\x5\b\x5\n\x38\x39\f\x6\x2\x2\x39=\a\xF\x2\x2"+
+		":;\f\x5\x2\x2;=\a\x10\x2\x2<\x35\x3\x2\x2\x2<\x38\x3\x2\x2\x2<:\x3\x2"+
+		"\x2\x2=@\x3\x2\x2\x2><\x3\x2\x2\x2>?\x3\x2\x2\x2?\t\x3\x2\x2\x2@>\x3\x2"+
+		"\x2\x2\x41G\a\x17\x2\x2\x42G\a\x19\x2\x2\x43G\a\x1A\x2\x2\x44G\a\x1B\x2"+
+		"\x2\x45G\a\x1C\x2\x2\x46\x41\x3\x2\x2\x2\x46\x42\x3\x2\x2\x2\x46\x43\x3"+
+		"\x2\x2\x2\x46\x44\x3\x2\x2\x2\x46\x45\x3\x2\x2\x2G\v\x3\x2\x2\x2\n\xF"+
+		"\x11\x1C(\x33<>\x46";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }

@@ -1,11 +1,16 @@
 data segment
     msg db "My message$"
+    w1 dw 0
 data ends
 
 code segment
     assume cs:code, ds:data
 start:
+    MOV [w1], 69
+    MOV ax, 1
+    MOV ax, [w1]
     CALL print_ax
+    CALL print_nl
     mov ah, 4ch
     int 21h
 

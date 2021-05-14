@@ -13,9 +13,6 @@ namespace Compilateur
         {
             SymbolTable = symbolTable;
         }
-        public override void EnterDecl(DEMOParser.DeclContext context)
-        {
-            base.EnterDecl(context);
-        }
+
     }
 }

@@ -6,7 +6,8 @@ code segment
     assume cs:code, ds:data
 start:
     MOV AX,5
-    ADD AX,5
+    MOV BX,5
+    ADD AX,BX
     mov ah, 4ch
     int 21h
 

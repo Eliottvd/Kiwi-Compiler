@@ -32,17 +32,30 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IDEMOListener : IParseTreeListener {
 	/// <summary>
-	/// Enter a parse tree produced by the <c>Decl</c>
+	/// Enter a parse tree produced by the <c>DeclVar</c>
 	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterDecl([NotNull] DEMOParser.DeclContext context);
+	void EnterDeclVar([NotNull] DEMOParser.DeclVarContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>Decl</c>
+	/// Exit a parse tree produced by the <c>DeclVar</c>
 	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitDecl([NotNull] DEMOParser.DeclContext context);
+	void ExitDeclVar([NotNull] DEMOParser.DeclVarContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>DeclConst</c>
+	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeclConst([NotNull] DEMOParser.DeclConstContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>DeclConst</c>
+	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeclConst([NotNull] DEMOParser.DeclConstContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>InstExpr</c>
@@ -175,6 +188,19 @@ public interface IDEMOListener : IParseTreeListener {
 	void ExitRightExpID([NotNull] DEMOParser.RightExpIDContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprNumber</c>
 	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
 	/// </summary>
@@ -186,6 +212,58 @@ public interface IDEMOListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitRightExprNumber([NotNull] DEMOParser.RightExprNumberContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprHexa8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprHexa8([NotNull] DEMOParser.RightExprHexa8Context context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprHexa8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprHexa8([NotNull] DEMOParser.RightExprHexa8Context context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprHexa16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprHexa16([NotNull] DEMOParser.RightExprHexa16Context context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprHexa16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprHexa16([NotNull] DEMOParser.RightExprHexa16Context context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprBinary8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprBinary8([NotNull] DEMOParser.RightExprBinary8Context context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprBinary8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprBinary8([NotNull] DEMOParser.RightExprBinary8Context context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprBinary16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprBinary16([NotNull] DEMOParser.RightExprBinary16Context context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprBinary16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprBinary16([NotNull] DEMOParser.RightExprBinary16Context context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="DEMOParser.demo"/>.

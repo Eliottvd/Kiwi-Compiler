@@ -1,12 +1,16 @@
 Begin 
 	string maString 
-	print(1++)
-	print(8--)
-	print(15+16)
+	const testConst = "Swagg"
+	print((1 + 1) + 1)
+	print(0b00001000--)
+	print(19-0x10)
 	word monMot
 	byte monByte
 	monByte = 4
-	maString = 4
 	print(8+8)
 	print(monByte)
+#	0b11111111 + 0b1111000111110001 #Les coutures tiennent pas 
+	0x0AFF +0xFF
+	monByte = (1+1)
+	monByte = (1-1)
 End

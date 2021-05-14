@@ -104,17 +104,25 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    " + id + " dw '$'");
         }
 
-        public void PrintMov(AssemblyRegister register, byte b)
+        public void PrintMov(AssemblyRegister register, Int16 b)
         {
             this.writer.WriteLine("    MOV " + register + "," + b);
         }
 
+        public void PrintConstDeclarationNbr(string id, Int16 i)
+        {
+            this.writer.WriteLine("    " + id + " EQU " + i);
+        }
+        public void PrintConstDeclarationStr(string id, string s)
+        {
+            this.writer.WriteLine("    " + id + " EQU " + s);
+        }
         public void PrintInc(AssemblyRegister register)
         {
             this.writer.WriteLine("    INC " + register);
             if (register != AssemblyRegister.AX)
             {
-                this.writer.WriteLine("    MOV ax, " + register);
+                this.writer.WriteLine("    MOV AX, " + register);
             }
         }
 
@@ -123,7 +131,7 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    DEC " + register);
             if (register != AssemblyRegister.AX)
             {
-                this.writer.WriteLine("    MOV ax, " + register);
+                this.writer.WriteLine("    MOV AX, " + register);
             }
         }
 
@@ -132,7 +140,7 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    ADD " + register + "," + register2);
             if (register != AssemblyRegister.AX)
             {
-                this.writer.WriteLine("    MOV ax, " + register);
+                this.writer.WriteLine("    MOV AX, " + register);
             }
         }
 
@@ -141,7 +149,7 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    SUB " + register + "," + register2);
             if (register != AssemblyRegister.AX)
             {
-                this.writer.WriteLine("    MOV ax, " + register);
+                this.writer.WriteLine("    MOV AX, " + register);
             }
         }
 
@@ -150,19 +158,19 @@ namespace Compilateur.Generator
             this.writer.WriteLine("    NOT " + register);
             if (register != AssemblyRegister.AX)
             {
-                this.writer.WriteLine("    MOV ax, " + register);
+                this.writer.WriteLine("    MOV AX, " + register);
             }
         }
 
         public void PrintAssignation(string id, int value)
         {
             this.writer.WriteLine("    MOV [" + id + "], " + value);
-            this.writer.WriteLine("    MOV ax, 1"); //L'assignation a été faite
+            this.writer.WriteLine("    MOV AX, 1"); //L'assignation a été faite
         }
 
         public void PrintId(string id)
         {
-            this.writer.WriteLine("    MOV ax, [" + id + "]");
+            this.writer.WriteLine("    MOV AX, [" + id + "]");
         }
 
 

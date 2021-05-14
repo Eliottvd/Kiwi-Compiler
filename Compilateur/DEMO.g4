@@ -9,7 +9,8 @@ demo: BEGIN
       END 
       ;
 
-declaration: type=(BYTE|WORD|STRING) ID       #Decl
+declaration: type=(BYTE|WORD|STRING) ID       #DeclVar
+             | CONST ID EQUAL type=(NUMBER|STRING_LITERAL) #DeclConst
              ;
 
 instruction: expr                             #InstExpr
@@ -18,13 +19,18 @@ instruction: expr                             #InstExpr
              | ID EQUAL expr                  #InstAssignation
              ;
 
-expr: exprent op=(PLUS|MINUS) exprent         #RightExprPlusMinus
+expr: expr op=(PLUS|MINUS) expr               #RightExprPlusMinus
       | exprent                               #RightExprEnt
-      | NOT exprent                           #RightExpNot
-      | exprent INC                           #RightExpIncrement
-      | exprent DEC                           #RightExpDecrement
+      | NOT expr                              #RightExpNot
+      | expr INC                              #RightExpIncrement
+      | expr DEC                              #RightExpDecrement
       | ID                                    #RightExpID
+      | LPAR expr RPAR                        #RightExpPar
       ;
 
 exprent: NUMBER                               #RightExprNumber
+         | HEXA8                              #RightExprHexa8
+         | HEXA16                             #RightExprHexa16
+         | BINARY8                            #RightExprBinary8
+         | BINARY16                           #RightExprBinary16
          ;

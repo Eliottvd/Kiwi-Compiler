@@ -20,13 +20,20 @@ BYTE: 'byte';
 WORD: 'word';
 STRING: 'string';
 STRING_LITERAL : '"' (.)*? '"';
+CONST: 'const';
 
 NUMBER: (DIGIT)+;
 ID: (LETTER)(LETTER|DIGIT)*;
+HEXA8 : ([0])('x')(HEXA)(HEXA);
+HEXA16 : ([0])('x')(HEXA)(HEXA)(HEXA)(HEXA);
+BINARY8 : ([0])('b')(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT);
+BINARY16 : ([0])('b')(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT)(BIT);
 
 fragment LETTER: [a-z]|[A-Z];
 fragment DIGIT: [0-9];
 fragment BIT: [0-1];
+fragment HEXA : [0-9]|[a-f]|[A-F];
+fragment BIT : [0-1];
 
 
 // Comments -> ignored

@@ -36,19 +36,34 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class DEMOBaseListener : IDEMOListener {
 	/// <summary>
-	/// Enter a parse tree produced by the <c>Decl</c>
+	/// Enter a parse tree produced by the <c>DeclVar</c>
 	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterDecl([NotNull] DEMOParser.DeclContext context) { }
+	public virtual void EnterDeclVar([NotNull] DEMOParser.DeclVarContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>Decl</c>
+	/// Exit a parse tree produced by the <c>DeclVar</c>
 	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitDecl([NotNull] DEMOParser.DeclContext context) { }
+	public virtual void ExitDeclVar([NotNull] DEMOParser.DeclVarContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>DeclConst</c>
+	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDeclConst([NotNull] DEMOParser.DeclConstContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>DeclConst</c>
+	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDeclConst([NotNull] DEMOParser.DeclConstContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>InstExpr</c>
@@ -201,6 +216,21 @@ public partial class DEMOBaseListener : IDEMOListener {
 	public virtual void ExitRightExpID([NotNull] DEMOParser.RightExpIDContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExpPar([NotNull] DEMOParser.RightExpParContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExpPar([NotNull] DEMOParser.RightExpParContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprNumber</c>
 	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -214,6 +244,66 @@ public partial class DEMOBaseListener : IDEMOListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitRightExprNumber([NotNull] DEMOParser.RightExprNumberContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprHexa8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprHexa8([NotNull] DEMOParser.RightExprHexa8Context context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprHexa8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprHexa8([NotNull] DEMOParser.RightExprHexa8Context context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprHexa16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprHexa16([NotNull] DEMOParser.RightExprHexa16Context context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprHexa16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprHexa16([NotNull] DEMOParser.RightExprHexa16Context context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprBinary8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprBinary8([NotNull] DEMOParser.RightExprBinary8Context context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprBinary8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprBinary8([NotNull] DEMOParser.RightExprBinary8Context context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprBinary16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprBinary16([NotNull] DEMOParser.RightExprBinary16Context context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprBinary16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprBinary16([NotNull] DEMOParser.RightExprBinary16Context context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="DEMOParser.demo"/>.

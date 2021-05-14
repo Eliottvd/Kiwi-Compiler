@@ -33,12 +33,20 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by the <c>Decl</c>
+	/// Visit a parse tree produced by the <c>DeclVar</c>
 	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitDecl([NotNull] DEMOParser.DeclContext context);
+	Result VisitDeclVar([NotNull] DEMOParser.DeclVarContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>DeclConst</c>
+	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDeclConst([NotNull] DEMOParser.DeclConstContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>InstExpr</c>
@@ -121,12 +129,52 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitRightExpID([NotNull] DEMOParser.RightExpIDContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprNumber</c>
 	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitRightExprNumber([NotNull] DEMOParser.RightExprNumberContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprHexa8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprHexa8([NotNull] DEMOParser.RightExprHexa8Context context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprHexa16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprHexa16([NotNull] DEMOParser.RightExprHexa16Context context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprBinary8</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprBinary8([NotNull] DEMOParser.RightExprBinary8Context context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprBinary16</c>
+	/// labeled alternative in <see cref="DEMOParser.exprent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprBinary16([NotNull] DEMOParser.RightExprBinary16Context context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="DEMOParser.demo"/>.
