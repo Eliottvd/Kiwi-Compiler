@@ -1,32 +1,62 @@
 data segment
     msg db "My message$"
-    maString db '$'
+    maString dw '$'
+    testConst EQU "Swagg"
     monMot dw 0
-    monByte db 0
+    monByte dw 0
+    CALL print_ax
+    CALL print_nl
 data ends
 
 code segment
     assume cs:code, ds:data
 start:
     MOV AX,1
-    INC AX
-    POP ax
+    MOV BX,1
+    ADD AX,BX
+    MOV AX,2
+    MOV BX,1
+    ADD AX,BX
     CALL print_ax
+    CALL print_nl
     MOV AX,8
     DEC AX
-    POP ax
     CALL print_ax
-    MOV AX,15
+    CALL print_nl
+    MOV AX,19
     MOV BX,16
-    ADD AX,BX
-    POP ax
+    SUB AX,BX
     CALL print_ax
-    MOV maString, 4
+    CALL print_nl
+    MOV [monByte], 4
+    MOV AX, 1
     MOV AX,8
     MOV BX,8
     ADD AX,BX
-    POP ax
     CALL print_ax
+    CALL print_nl
+    MOV AX, [monByte]
+    CALL print_ax
+    CALL print_nl
+    MOV AX,2815
+    MOV BX,255
+    ADD AX,BX
+    MOV AX,1
+    MOV BX,1
+    ADD AX,BX
+    MOV [monByte], 2
+    MOV AX, 1
+    MOV AX,1
+    MOV BX,1
+    ADD AX,BX
+    MOV AX,1
+    MOV BX,1
+    SUB AX,BX
+    MOV [monByte], 0
+    MOV AX, 1
+    MOV AX,1
+    MOV BX,1
+    SUB AX,BX
     mov ah, 4ch
     int 21h
 

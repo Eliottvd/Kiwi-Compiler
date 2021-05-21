@@ -5,9 +5,17 @@ import DEMOWords;
 // Program
 
 demo: BEGIN
-         (declaration|instruction)*
+         (declarationFunction|declaration|instruction)*
       END 
       ;
+
+declarationFunction: type=(BYTE|WORD) ID LPAR (parameterDeclaration*)? RPAR LBRACKET 
+                    (instruction)* 
+                RBRACKET #DeclFunction
+             ;
+
+parameterDeclaration : typeVar=(BYTE|WORD) ID COMMA
+             ;
 
 declaration: type=(BYTE|WORD|STRING) ID       #DeclVar
              | CONST ID EQUAL type=(NUMBER|STRING_LITERAL) #DeclConst

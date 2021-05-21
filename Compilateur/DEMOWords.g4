@@ -4,6 +4,8 @@ lexer grammar DEMO;
 PRINT: 'print';
 LPAR: '(';
 RPAR: ')';
+LBRACKET: '{';
+RBRACKET: '}';
 COMMA: ',';
 PLUS: '+';
 MINUS: '-';

@@ -32,6 +32,19 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IDEMOListener : IParseTreeListener {
 	/// <summary>
+	/// Enter a parse tree produced by the <c>DeclFunction</c>
+	/// labeled alternative in <see cref="DEMOParser.declarationFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeclFunction([NotNull] DEMOParser.DeclFunctionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>DeclFunction</c>
+	/// labeled alternative in <see cref="DEMOParser.declarationFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeclFunction([NotNull] DEMOParser.DeclFunctionContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>DeclVar</c>
 	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
 	/// </summary>
@@ -275,6 +288,28 @@ public interface IDEMOListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitDemo([NotNull] DEMOParser.DemoContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="DEMOParser.declarationFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeclarationFunction([NotNull] DEMOParser.DeclarationFunctionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DEMOParser.declarationFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeclarationFunction([NotNull] DEMOParser.DeclarationFunctionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="DEMOParser.parameterDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParameterDeclaration([NotNull] DEMOParser.ParameterDeclarationContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DEMOParser.parameterDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParameterDeclaration([NotNull] DEMOParser.ParameterDeclarationContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="DEMOParser.declaration"/>.

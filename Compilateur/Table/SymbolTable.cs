@@ -11,7 +11,6 @@ namespace Compilateur.Table
 
         public SymbolTable()
         {
-            Scopes.Add(new Scope("General"));
         }
     }
 }

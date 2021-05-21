@@ -28,6 +28,11 @@ namespace Compilateur
                 this.Visit(declarationContext);
             }
 
+            foreach (var declarationFunctionContext in context.declarationFunction())
+            {
+                this.Visit(declarationFunctionContext);
+            }
+
             Printer.PrintBeginCode();
 
             foreach (var instructionContext in context.instruction())
@@ -188,5 +193,24 @@ namespace Compilateur
             return base.VisitRightExpID(context);
         }
 
+        public override string VisitDeclFunction(DEMOParser.DeclFunctionContext context)
+        {
+            Scope scope = new Scope(context.ID().GetText(), context.type.Type == DEMOLexer.BYTE ? Scope.FctType.FctByte : Scope.FctType.FctWord);
+            this.SymbolTable.Scopes.Add(scope);
+            foreach (var paramDeclContext in context.parameterDeclaration())
+            {
+                this.SymbolTable.Scopes.Find(s => s.Name.Equals(scope.Name))?.Params.Add(
+                new STParam(scope, 
+                    paramDeclContext.ID().GetText(),
+                    paramDeclContext.typeVar.Type == DEMOLexer.BYTE ? STParam.VarType.VarByte : STParam.VarType.VarWord));
+            }
+
+            foreach (var param in this.SymbolTable.Scopes.Find(s => s.Name.Equals(scope.Name))?.Params)
+            {
+                Console.WriteLine(param.ToString()); 
+            }
+            
+            return base.VisitDeclFunction(context);
+        }
     }
 }

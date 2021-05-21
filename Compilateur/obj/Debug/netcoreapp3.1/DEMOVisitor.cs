@@ -33,6 +33,14 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
+	/// Visit a parse tree produced by the <c>DeclFunction</c>
+	/// labeled alternative in <see cref="DEMOParser.declarationFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDeclFunction([NotNull] DEMOParser.DeclFunctionContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>DeclVar</c>
 	/// labeled alternative in <see cref="DEMOParser.declaration"/>.
 	/// </summary>
@@ -182,6 +190,20 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDemo([NotNull] DEMOParser.DemoContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="DEMOParser.declarationFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDeclarationFunction([NotNull] DEMOParser.DeclarationFunctionContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="DEMOParser.parameterDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParameterDeclaration([NotNull] DEMOParser.ParameterDeclarationContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="DEMOParser.declaration"/>.

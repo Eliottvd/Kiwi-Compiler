@@ -1,4 +1,7 @@
 Begin 
+	byte maFonction(byte var1, word var2,){
+		print(1)
+	}
 	string maString 
 	const testConst = "Swagg"
 	print((1 + 1) + 1)
