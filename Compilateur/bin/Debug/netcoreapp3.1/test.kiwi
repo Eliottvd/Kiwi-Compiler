@@ -1,20 +1,9 @@
 Begin 
-	byte maFonction(byte var1, word var2,){
-		9+8
-	}
-
-	string maString 
-	const testConst = "Swagg"
-	print((1 + 1) + 1)
-	print(0b00001000--)
-	print(19-0x10)    
-	word monMot
-	byte monByte
-	monByte = 4
-	print(8+8)
-	print(monByte)
-#	0b11111111 + 0b1111000111110001 #Les coutures tiennent pas 
-	0x0AFF +0xFF
-	monByte = (1+1)
-	monByte = (1-1)
+	print(2*6)   					#12
+	print(0b00001111 & 0b11110011)  #3
+	print(0b00001111 | 0b01110011)  #127
+	print(0b11110001 >> 4) 			#15
+	print(0b00000001 << 4) 			#16
+	print(7/2)   					#3
+	print(7%2)   					#1
 End

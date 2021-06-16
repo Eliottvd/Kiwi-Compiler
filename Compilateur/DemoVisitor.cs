@@ -56,13 +56,53 @@ namespace Compilateur
             {
                 case DEMOLexer.PLUS:
                     Printer.PrintAdd(AssemblyRegister.AX, AssemblyRegister.BX);
+                    Printer.PrintPushRegister(AssemblyRegister.AX);
                     break;
                 case DEMOLexer.MINUS:
                     Printer.PrintSub(AssemblyRegister.AX, AssemblyRegister.BX);
+                    Printer.PrintPushRegister(AssemblyRegister.AX);
+                    break;
+                case DEMOLexer.MUL:
+                    Printer.PrintMul(AssemblyRegister.BX);
+                    Printer.PrintPushRegister(AssemblyRegister.AX);
+                    break;
+                case DEMOLexer.DIV:
+                    Printer.PrintDiv(AssemblyRegister.BX);
+                    Printer.PrintPushRegister(AssemblyRegister.AX); ;
+                    break;
+                case DEMOLexer.MOD:
+                    Printer.PrintDiv(AssemblyRegister.BX);
+                    Printer.PrintPushRegister(AssemblyRegister.DX);
+                    break;
+                case DEMOLexer.AND:
+                    Printer.PrintAnd(AssemblyRegister.AX, AssemblyRegister.BX);
+                    Printer.PrintPushRegister(AssemblyRegister.AX); ;
+                    break;
+                case DEMOLexer.OR:
+                    Printer.PrintOr(AssemblyRegister.AX, AssemblyRegister.BX);
+                    Printer.PrintPushRegister(AssemblyRegister.AX); ;
+                    break;
+            }
+
+            return string.Empty;
+        }
+
+        public override string VisitRightExprShift(DEMOParser.RightExprShiftContext context)
+        {
+            this.Visit(context.expr());
+            this.Visit(context.exprent());
+            Printer.PrintPopRegister(AssemblyRegister.CX);  //Increment
+            Printer.PrintPopRegister(AssemblyRegister.AX);  
+            switch (context.op.Type)
+            {
+                case DEMOLexer.LSHIFT:
+                    Printer.PrintShl(AssemblyRegister.AX, AssemblyRegister.CL);
+                    break;
+                case DEMOLexer.RSHIFT:
+                    Printer.PrintShr(AssemblyRegister.AX, AssemblyRegister.CL);
                     break;
             }
             Printer.PrintPushRegister(AssemblyRegister.AX);
-
             return string.Empty;
         }
 
@@ -105,6 +145,7 @@ namespace Compilateur
             
             return string.Empty;
         }
+
 
         public override string VisitRightExprHexa8(DEMOParser.RightExprHexa8Context context)
         {

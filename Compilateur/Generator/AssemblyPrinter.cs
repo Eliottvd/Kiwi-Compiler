@@ -129,55 +129,58 @@ namespace Compilateur.Generator
         public void PrintInc(AssemblyRegister register)
         {
             this.writer.WriteLine("    INC " + register);
-            if (register != AssemblyRegister.AX)
-            {
-                this.writer.WriteLine("    MOV AX, " + register);
-            }
         }
 
         public void PrintDec(AssemblyRegister register)
         {
             this.writer.WriteLine("    DEC " + register);
-            if (register != AssemblyRegister.AX)
-            {
-                this.writer.WriteLine("    MOV AX, " + register);
-            }
         }
 
         public void PrintAdd(AssemblyRegister register, Int16 i)
         {
             this.writer.WriteLine("    ADD " + register + "," + i);
-            if (register != AssemblyRegister.AX)
-            {
-                this.writer.WriteLine("    MOV AX, " + register);
-            }
         }
 
         public void PrintAdd(AssemblyRegister register, AssemblyRegister register2)
         {
             this.writer.WriteLine("    ADD " + register + "," + register2);
-            if (register != AssemblyRegister.AX)
-            {
-                this.writer.WriteLine("    MOV AX, " + register);
-            }
         }
 
         public void PrintSub(AssemblyRegister register, AssemblyRegister register2)
         {
             this.writer.WriteLine("    SUB " + register + "," + register2);
-            if (register != AssemblyRegister.AX)
-            {
-                this.writer.WriteLine("    MOV AX, " + register);
-            }
+        }
+
+        //MUL|DIV|MOD|AND|OR
+        public void PrintMul(AssemblyRegister register)
+        {
+            this.writer.WriteLine("    MUL " + register);
+        }
+        public void PrintDiv(AssemblyRegister register)
+        {
+            this.writer.WriteLine("    XOR DX, DX");
+            this.writer.WriteLine("    DIV " + register);
+        }
+        public void PrintAnd(AssemblyRegister register, AssemblyRegister register2)
+        {
+            this.writer.WriteLine("    AND " + register + "," + register2);
+        }
+        public void PrintOr(AssemblyRegister register, AssemblyRegister register2)
+        {
+            this.writer.WriteLine("    OR " + register + "," + register2);
+        }
+        public void PrintShl(AssemblyRegister registerSrc, AssemblyRegister registerDest)
+        {
+            this.writer.WriteLine("    SHL " + registerSrc + "," + registerDest);
+        }
+        public void PrintShr(AssemblyRegister registerSrc, AssemblyRegister registerDest)
+        {
+            this.writer.WriteLine("    SHR " + registerSrc + "," + registerDest);
         }
 
         public void PrintNot(AssemblyRegister register)
         {
             this.writer.WriteLine("    NOT " + register);
-            if (register != AssemblyRegister.AX)
-            {
-                this.writer.WriteLine("    MOV AX, " + register);
-            }
         }
 
         public void PrintAssignation(string id, AssemblyRegister register)

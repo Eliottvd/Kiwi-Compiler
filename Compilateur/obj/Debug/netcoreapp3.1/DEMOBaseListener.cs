@@ -156,6 +156,21 @@ public partial class DEMOBaseListener : IDEMOListener {
 	public virtual void ExitRightExprPlusMinus([NotNull] DEMOParser.RightExprPlusMinusContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprShift([NotNull] DEMOParser.RightExprShiftContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprEnt</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>

@@ -136,6 +136,19 @@ public interface IDEMOListener : IParseTreeListener {
 	void ExitRightExprPlusMinus([NotNull] DEMOParser.RightExprPlusMinusContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprEnt</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>

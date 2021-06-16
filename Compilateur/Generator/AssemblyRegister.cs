@@ -6,7 +6,7 @@
         BX,
         CX,
         DX,
-
+        CL,
         //ect. DI,SI, ... à vous de jouer
     }
 }

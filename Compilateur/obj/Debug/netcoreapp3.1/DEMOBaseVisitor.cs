@@ -131,6 +131,18 @@ public partial class DEMOBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	public virtual Result VisitRightExprPlusMinus([NotNull] DEMOParser.RightExprPlusMinusContext context) { return VisitChildren(context); }
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context) { return VisitChildren(context); }
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprEnt</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// <para>

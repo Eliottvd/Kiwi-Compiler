@@ -27,7 +27,8 @@ instruction: expr                             #InstExpr
              | NOP                            #InstNOP
              ;
 
-expr: expr op=(PLUS|MINUS) expr               #RightExprPlusMinus
+expr: expr op=(PLUS|MINUS|MUL|DIV|MOD|AND|OR) expr   #RightExprPlusMinus
+      | expr op=(LSHIFT|RSHIFT) exprent       #RightExprShift
       | exprent                               #RightExprEnt
       | NOT expr                              #RightExpNot
       | expr INC                              #RightExpIncrement
