@@ -95,18 +95,6 @@ public partial class DEMOBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	public virtual Result VisitInstPrint([NotNull] DEMOParser.InstPrintContext context) { return VisitChildren(context); }
 
 	/// <summary>
-	/// Visit a parse tree produced by the <c>InstNOP</c>
-	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitInstNOP([NotNull] DEMOParser.InstNOPContext context) { return VisitChildren(context); }
-
-	/// <summary>
 	/// Visit a parse tree produced by the <c>InstAssignation</c>
 	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
 	/// <para>
@@ -117,6 +105,18 @@ public partial class DEMOBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitInstAssignation([NotNull] DEMOParser.InstAssignationContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>InstNOP</c>
+	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitInstNOP([NotNull] DEMOParser.InstNOPContext context) { return VisitChildren(context); }
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprPlusMinus</c>
@@ -201,6 +201,18 @@ public partial class DEMOBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRightExpPar([NotNull] DEMOParser.RightExpParContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprFctCall</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitRightExprFctCall([NotNull] DEMOParser.RightExprFctCallContext context) { return VisitChildren(context); }
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprNumber</c>

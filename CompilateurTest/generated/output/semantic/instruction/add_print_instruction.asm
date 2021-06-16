@@ -1,57 +1,42 @@
-.MODEL SMALL
-.STACK 100H
-.DATA
+data segment
+    msg db "My message$"
+data ends
 
-
-.CODE
-MAIN PROC FAR
-    MOV AX,@DATA
-    MOV DS,AX
-    ; initialise var
-
-    ; print(5+5)
-    ; 5+5
-    ; 5
+code segment
+    assume cs:code, ds:data
+start:
     MOV AX,5
-    push AX
-    ; 5
+    PUSH AX
     MOV AX,5
-    push AX
-    pop BX
-    pop AX
-    ADD AX, BX
-    push AX
+    PUSH AX
+    POP BX
+    POP AX
+    ADD AX,BX
+    PUSH AX
     CALL print_ax
-    ; print(0x05+0x05)
-    ; 0x05+0x05
-    ; 0x05
-    MOV AX,05h
-    push AX
-    ; 0x05
-    MOV AX,05h
-    push AX
-    pop BX
-    pop AX
-    ADD AX, BX
-    push AX
+    CALL print_nl
+    MOV AX,5
+    PUSH AX
+    MOV AX,5
+    PUSH AX
+    POP BX
+    POP AX
+    ADD AX,BX
+    PUSH AX
     CALL print_ax
-    ; print(0b00000101+0b00000101)
-    ; 0b00000101+0b00000101
-    ; 0b00000101
-    MOV AX,00000101b
-    push AX
-    ; 0b00000101
-    MOV AX,00000101b
-    push AX
-    pop BX
-    pop AX
-    ADD AX, BX
-    push AX
+    CALL print_nl
+    MOV AX,5
+    PUSH AX
+    MOV AX,5
+    PUSH AX
+    POP BX
+    POP AX
+    ADD AX,BX
+    PUSH AX
     CALL print_ax
-    ;interrupt to exit
+    CALL print_nl
     mov ah, 4ch
     int 21h
-MAIN ENDP
 
 ;------------------------------------------------
 ;  PUSH tout les registres
@@ -151,4 +136,5 @@ print_nl PROC
     RET
 print_nl ENDP
 
-END MAIN
+code ends
+end start

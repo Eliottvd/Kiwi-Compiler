@@ -21,7 +21,6 @@ namespace Compilateur
         public override string VisitDemo(DEMOParser.DemoContext context)
         {
             Printer.PrintBeginData();
-            
 
             foreach (var declarationContext in context.declaration())
             {
@@ -46,27 +45,25 @@ namespace Compilateur
 
         public override string VisitRightExprPlusMinus(DEMOParser.RightExprPlusMinusContext context)
         {
+            //Console.WriteLine(context.GetText());
             var left = this.Visit(context.expr(0));
             var right = this.Visit(context.expr(1));
-            var res = 0;
-
+            Printer.PrintPopRegister(AssemblyRegister.BX);
+            Printer.PrintPopRegister(AssemblyRegister.AX);
+            
+            
             switch (context.op.Type)
             {
                 case DEMOLexer.PLUS:
-                    Printer.PrintMov(AssemblyRegister.AX, Int16.Parse(left));
-                    Printer.PrintMov(AssemblyRegister.BX, Int16.Parse(right));
                     Printer.PrintAdd(AssemblyRegister.AX, AssemblyRegister.BX);
-                    res = Int16.Parse(left) + Int16.Parse(right);
                     break;
                 case DEMOLexer.MINUS:
-                    Printer.PrintMov(AssemblyRegister.AX, Int16.Parse(left));
-                    Printer.PrintMov(AssemblyRegister.BX, Int16.Parse(right));
                     Printer.PrintSub(AssemblyRegister.AX, AssemblyRegister.BX);
-                    res = Int16.Parse(left) - Int16.Parse(right);
                     break;
             }
+            Printer.PrintPushRegister(AssemblyRegister.AX);
 
-            return res.ToString();
+            return string.Empty;
         }
 
         public override string VisitRightExpPar(DEMOParser.RightExpParContext context)
@@ -75,53 +72,74 @@ namespace Compilateur
         }
 
         public override string VisitRightExpNot(DEMOParser.RightExpNotContext context)
-        {
-            var exp = this.Visit(context.expr());
-            Printer.PrintMov(AssemblyRegister.AX, byte.Parse(exp));
+        { 
+            this.Visit(context.expr());
+            Printer.PrintPopRegister(AssemblyRegister.AX);
             Printer.PrintNot(AssemblyRegister.AX);
+            Printer.PrintPushRegister(AssemblyRegister.AX);
             return string.Empty;
         }
 
         public override string VisitRightExpIncrement(DEMOParser.RightExpIncrementContext context)
         {
-            Printer.PrintMov(AssemblyRegister.AX, byte.Parse(this.Visit(context.expr())));
+            this.Visit(context.expr());
+            Printer.PrintPopRegister(AssemblyRegister.AX);
             Printer.PrintInc(AssemblyRegister.AX);
+            Printer.PrintPushRegister(AssemblyRegister.AX);
             return string.Empty;
         }
 
         public override string VisitRightExpDecrement(DEMOParser.RightExpDecrementContext context)
         {
-            Printer.PrintMov(AssemblyRegister.AX, byte.Parse(this.Visit(context.expr())));
+            this.Visit(context.expr());
+            Printer.PrintPopRegister(AssemblyRegister.AX);
             Printer.PrintDec(AssemblyRegister.AX);
+            Printer.PrintPushRegister(AssemblyRegister.AX);
             return string.Empty;
         }
 
         public override string VisitRightExprNumber(DEMOParser.RightExprNumberContext context)
         {
-            return context.NUMBER().GetText();
+            Printer.PrintMov(AssemblyRegister.AX, Convert.ToInt16(context.NUMBER().GetText()));
+            Printer.PrintPushRegister(register:AssemblyRegister.AX);
+            
+            return string.Empty;
         }
 
         public override string VisitRightExprHexa8(DEMOParser.RightExprHexa8Context context)
         {
-            return Convert.ToInt16(context.GetText().Substring(2), 16).ToString();
+            Printer.PrintMov(AssemblyRegister.AX, Convert.ToInt16(context.GetText().Substring(2), 16));
+            Printer.PrintPushRegister(register: AssemblyRegister.AX);
+
+            return string.Empty;
         }
         public override string VisitRightExprHexa16(DEMOParser.RightExprHexa16Context context)
         {
-            return Convert.ToInt16(context.GetText().Substring(2), 16).ToString();
+            Printer.PrintMov(AssemblyRegister.AX, Convert.ToInt16(context.GetText().Substring(2), 16));
+            Printer.PrintPushRegister(register: AssemblyRegister.AX);
+
+            return string.Empty;
         }
 
         public override string VisitRightExprBinary8(DEMOParser.RightExprBinary8Context context)
         {
-            return Convert.ToInt16(context.GetText().Substring(2), 2).ToString();
+            Printer.PrintMov(AssemblyRegister.AX, Convert.ToInt16(context.GetText().Substring(2), 2));
+            Printer.PrintPushRegister(register: AssemblyRegister.AX);
+
+            return string.Empty;
         }
         public override string VisitRightExprBinary16(DEMOParser.RightExprBinary16Context context)
         {
-            return Convert.ToInt16(context.GetText().Substring(2), 2).ToString();
+            Printer.PrintMov(AssemblyRegister.AX, Convert.ToInt16(context.GetText().Substring(2), 2));
+            Printer.PrintPushRegister(register: AssemblyRegister.AX);
+
+            return string.Empty;
         }
 
         public override string VisitInstPrint(DEMOParser.InstPrintContext context)
         {
             Console.WriteLine(this.Visit(context.expr()));
+            this.Printer.PrintPopRegister(AssemblyRegister.AX);
             this.Printer.PrintCallPrintAX();
             this.Printer.PrintCallPrintEndl();
             return string.Empty;
@@ -167,16 +185,18 @@ namespace Compilateur
 
         public override string VisitInstAssignation(DEMOParser.InstAssignationContext context)
         {
-            if(this.SymbolTable.Entries.Find(e => e.Name == context.ID().GetText()) != null)
+            this.Visit(context.expr());
+            if (this.SymbolTable.Entries.Find(e => e.Name == context.ID().GetText()) != null)
             {
-                Printer.PrintAssignation(context.ID().GetText(), Int32.Parse(this.Visit(context.expr())));
+                Printer.PrintAssignation(context.ID().GetText(), AssemblyRegister.AX);
             }
             else
             {
                 throw new NotFoundSymbolException("Cannot find " + context.ID().GetText() + ". Please make sure it has been declared.");
             }
 
-            return base.VisitInstAssignation(context);
+            //return base.VisitInstAssignation(context);
+            return string.Empty;
         }
 
 
@@ -184,13 +204,15 @@ namespace Compilateur
         {
             if (this.SymbolTable.Entries.Find(e => e.Name == context.ID().GetText()) != null)
             {
+
                 Printer.PrintId(context.ID().GetText());
+                Printer.PrintPushRegister(AssemblyRegister.AX);
             }
             else
             {
                 throw new NotFoundSymbolException("Cannot find " + context.ID().GetText() + ". Please make sure it has been declared.");
             }
-            return base.VisitRightExpID(context);
+            return string.Empty;
         }
 
         public override string VisitDeclFunction(DEMOParser.DeclFunctionContext context)
@@ -200,17 +222,33 @@ namespace Compilateur
             foreach (var paramDeclContext in context.parameterDeclaration())
             {
                 this.SymbolTable.Scopes.Find(s => s.Name.Equals(scope.Name))?.Params.Add(
-                new STParam(scope, 
+                new STParam(scope,
                     paramDeclContext.ID().GetText(),
                     paramDeclContext.typeVar.Type == DEMOLexer.BYTE ? STParam.VarType.VarByte : STParam.VarType.VarWord));
             }
 
+            this.Printer.PrintStartProc(scope.Name);
+
+            //Ecrire le depush des parametres
+
+            foreach (var instructionContext in context.instruction())
+            {
+                this.Visit(instructionContext);
+            }
+
+            this.Printer.PrintEndProc(scope.Name);
+
             foreach (var param in this.SymbolTable.Scopes.Find(s => s.Name.Equals(scope.Name))?.Params)
             {
-                Console.WriteLine(param.ToString()); 
+                Console.WriteLine(param.ToString());
             }
-            
-            return base.VisitDeclFunction(context);
+
+            return "";
+        }
+
+        public override string VisitRightExprFctCall(DEMOParser.RightExprFctCallContext context)
+        {
+            return string.Empty;
         }
     }
 }

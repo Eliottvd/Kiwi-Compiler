@@ -111,21 +111,6 @@ public partial class DEMOBaseListener : IDEMOListener {
 	public virtual void ExitInstPrint([NotNull] DEMOParser.InstPrintContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by the <c>InstNOP</c>
-	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterInstNOP([NotNull] DEMOParser.InstNOPContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>InstNOP</c>
-	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitInstNOP([NotNull] DEMOParser.InstNOPContext context) { }
-
-	/// <summary>
 	/// Enter a parse tree produced by the <c>InstAssignation</c>
 	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -139,6 +124,21 @@ public partial class DEMOBaseListener : IDEMOListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitInstAssignation([NotNull] DEMOParser.InstAssignationContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>InstNOP</c>
+	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterInstNOP([NotNull] DEMOParser.InstNOPContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>InstNOP</c>
+	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitInstNOP([NotNull] DEMOParser.InstNOPContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprPlusMinus</c>
@@ -244,6 +244,21 @@ public partial class DEMOBaseListener : IDEMOListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitRightExpPar([NotNull] DEMOParser.RightExpParContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprFctCall</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprFctCall([NotNull] DEMOParser.RightExprFctCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprFctCall</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprFctCall([NotNull] DEMOParser.RightExprFctCallContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprNumber</c>

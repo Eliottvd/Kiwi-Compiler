@@ -89,6 +89,15 @@ namespace Compilateur.Generator
             this.writer.WriteLine("end start");
         }
 
+        public void PrintStartProc(string name)
+        {
+            this.writer.WriteLine(name + " PROC");
+        }
+        public void PrintEndProc(string name)
+        {
+            this.writer.WriteLine(name + " ENDP");
+        }
+
         public void PrintByteDeclaration(string id)
         {
             this.writer.WriteLine("    " + id + " dw 0");
@@ -135,6 +144,15 @@ namespace Compilateur.Generator
             }
         }
 
+        public void PrintAdd(AssemblyRegister register, Int16 i)
+        {
+            this.writer.WriteLine("    ADD " + register + "," + i);
+            if (register != AssemblyRegister.AX)
+            {
+                this.writer.WriteLine("    MOV AX, " + register);
+            }
+        }
+
         public void PrintAdd(AssemblyRegister register, AssemblyRegister register2)
         {
             this.writer.WriteLine("    ADD " + register + "," + register2);
@@ -162,15 +180,27 @@ namespace Compilateur.Generator
             }
         }
 
-        public void PrintAssignation(string id, int value)
+        public void PrintAssignation(string id, AssemblyRegister register)
         {
-            this.writer.WriteLine("    MOV [" + id + "], " + value);
-            this.writer.WriteLine("    MOV AX, 1"); //L'assignation a été faite
+            this.writer.WriteLine("    MOV [" + id + "], " + register);
         }
 
         public void PrintId(string id)
         {
             this.writer.WriteLine("    MOV AX, [" + id + "]");
+        }
+
+        public void PrintPushRegister(AssemblyRegister register)
+        {
+            this.writer.WriteLine("    PUSH " + register);
+        }
+        public void PrintPopRegister(AssemblyRegister register)
+        {
+            this.writer.WriteLine("    POP " + register);
+        }
+        public void PrintCallProc(string procName)
+        {
+            this.writer.WriteLine("    call " + procName);
         }
 
 
@@ -328,7 +358,6 @@ namespace Compilateur.Generator
 
         public void PrintCallPrintAX()
         {
-            //this.writer.WriteLine("    POP ax"); //On verra comment on gere ca mieux plus tard 
             this.writer.WriteLine("    CALL print_ax");
         }
 

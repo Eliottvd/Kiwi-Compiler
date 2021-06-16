@@ -22,6 +22,15 @@ namespace Compilateur.Tests
         }
 
         [TestMethod()]
+        public void testassignation_assign_simplection(){
+            Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\assignation\assign_simplection.kiwi", 
+                    @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\assignation\assign_simplection.asm");
+
+            var res = AssemblyRunner.Start(RootFolder, "assignation",  @"assign_simplection.asm", true);
+            Assert.AreEqual("71", res, "Le résultat de sortie de l'assembleur n'est pas celui attentdu");
+        }
+
+        [TestMethod()]
         public void testassignation_complex_assign_instruction(){
             Program.Compile(@"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\semantic\assignation\complex_assign_instruction.kiwi", 
                     @"D:\Eliott\Ecole\WK_Compiler\Kiwi-Compiler\CompilateurTest\generated\output\semantic\assignation\complex_assign_instruction.asm");

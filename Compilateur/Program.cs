@@ -34,9 +34,7 @@ namespace Compilateur
                 var sourceCode = File.ReadAllText(path);
                 // Check syntax
                 var tree = Parse(sourceCode);
-                
-                //Et la table des symboles? 
-                
+
                 // Genrate code
                 var asmCode = PrintAssemblyCode(tree);
                 // Create output directory 

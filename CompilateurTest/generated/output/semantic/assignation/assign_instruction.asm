@@ -6,9 +6,10 @@ data ends
 code segment
     assume cs:code, ds:data
 start:
-    MOV [w1], 69
-    MOV ax, 1
-    MOV ax, [w1]
+    MOV AX,69
+    PUSH AX
+    MOV [w1], AX
+    MOV AX, [w1]
     CALL print_ax
     CALL print_nl
     mov ah, 4ch

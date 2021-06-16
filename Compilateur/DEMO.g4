@@ -23,8 +23,8 @@ declaration: type=(BYTE|WORD|STRING) ID       #DeclVar
 
 instruction: expr                             #InstExpr
              | PRINT LPAR expr RPAR           #InstPrint
-             | NOP                            #InstNOP
              | ID EQUAL expr                  #InstAssignation
+             | NOP                            #InstNOP
              ;
 
 expr: expr op=(PLUS|MINUS) expr               #RightExprPlusMinus
@@ -34,6 +34,7 @@ expr: expr op=(PLUS|MINUS) expr               #RightExprPlusMinus
       | expr DEC                              #RightExpDecrement
       | ID                                    #RightExpID
       | LPAR expr RPAR                        #RightExpPar
+      | ID LPAR (parameterDeclaration*)? RPAR #RightExprFctCall
       ;
 
 exprent: NUMBER                               #RightExprNumber

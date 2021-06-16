@@ -4,8 +4,11 @@ data segment
     testConst EQU "Swagg"
     monMot dw 0
     monByte dw 0
-    CALL print_ax
-    CALL print_nl
+maFonction PROC
+    MOV AX,9
+    MOV BX,8
+    ADD AX,BX
+maFonction ENDP
 data ends
 
 code segment

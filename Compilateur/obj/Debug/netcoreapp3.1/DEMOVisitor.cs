@@ -73,20 +73,20 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitInstPrint([NotNull] DEMOParser.InstPrintContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by the <c>InstNOP</c>
-	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitInstNOP([NotNull] DEMOParser.InstNOPContext context);
-
-	/// <summary>
 	/// Visit a parse tree produced by the <c>InstAssignation</c>
 	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitInstAssignation([NotNull] DEMOParser.InstAssignationContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>InstNOP</c>
+	/// labeled alternative in <see cref="DEMOParser.instruction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInstNOP([NotNull] DEMOParser.InstNOPContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprPlusMinus</c>
@@ -143,6 +143,14 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprFctCall</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprFctCall([NotNull] DEMOParser.RightExprFctCallContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprNumber</c>
