@@ -141,6 +141,36 @@ public partial class DEMOBaseListener : IDEMOListener {
 	public virtual void ExitInstNOP([NotNull] DEMOParser.InstNOPContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExpPar([NotNull] DEMOParser.RightExpParContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExpPar([NotNull] DEMOParser.RightExpParContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpMulDivMod</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExpMulDivMod([NotNull] DEMOParser.RightExpMulDivModContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpMulDivMod</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExpMulDivMod([NotNull] DEMOParser.RightExpMulDivModContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprPlusMinus</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -154,51 +184,6 @@ public partial class DEMOBaseListener : IDEMOListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitRightExprPlusMinus([NotNull] DEMOParser.RightExprPlusMinusContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExprShift</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterRightExprShift([NotNull] DEMOParser.RightExprShiftContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExprShift</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExprEnt</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterRightExprEnt([NotNull] DEMOParser.RightExprEntContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExprEnt</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitRightExprEnt([NotNull] DEMOParser.RightExprEntContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExpNot</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterRightExpNot([NotNull] DEMOParser.RightExpNotContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExpNot</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitRightExpNot([NotNull] DEMOParser.RightExpNotContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExpIncrement</c>
@@ -231,6 +216,51 @@ public partial class DEMOBaseListener : IDEMOListener {
 	public virtual void ExitRightExpDecrement([NotNull] DEMOParser.RightExpDecrementContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprAndOr</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprAndOr([NotNull] DEMOParser.RightExprAndOrContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprAndOr</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprAndOr([NotNull] DEMOParser.RightExprAndOrContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprShift([NotNull] DEMOParser.RightExprShiftContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprEnt</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRightExprEnt([NotNull] DEMOParser.RightExprEntContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprEnt</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRightExprEnt([NotNull] DEMOParser.RightExprEntContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExpID</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -246,19 +276,19 @@ public partial class DEMOBaseListener : IDEMOListener {
 	public virtual void ExitRightExpID([NotNull] DEMOParser.RightExpIDContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExpPar</c>
+	/// Enter a parse tree produced by the <c>RightExpNot</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterRightExpPar([NotNull] DEMOParser.RightExpParContext context) { }
+	public virtual void EnterRightExpNot([NotNull] DEMOParser.RightExpNotContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExpPar</c>
+	/// Exit a parse tree produced by the <c>RightExpNot</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitRightExpPar([NotNull] DEMOParser.RightExpParContext context) { }
+	public virtual void ExitRightExpNot([NotNull] DEMOParser.RightExpNotContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprFctCall</c>

@@ -123,6 +123,32 @@ public interface IDEMOListener : IParseTreeListener {
 	void ExitInstNOP([NotNull] DEMOParser.InstNOPContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExpMulDivMod</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExpMulDivMod([NotNull] DEMOParser.RightExpMulDivModContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExpMulDivMod</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExpMulDivMod([NotNull] DEMOParser.RightExpMulDivModContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprPlusMinus</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>
@@ -134,45 +160,6 @@ public interface IDEMOListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitRightExprPlusMinus([NotNull] DEMOParser.RightExprPlusMinusContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExprShift</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExprShift</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExprEnt</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterRightExprEnt([NotNull] DEMOParser.RightExprEntContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExprEnt</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitRightExprEnt([NotNull] DEMOParser.RightExprEntContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExpNot</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterRightExpNot([NotNull] DEMOParser.RightExpNotContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExpNot</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitRightExpNot([NotNull] DEMOParser.RightExpNotContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExpIncrement</c>
@@ -201,6 +188,45 @@ public interface IDEMOListener : IParseTreeListener {
 	void ExitRightExpDecrement([NotNull] DEMOParser.RightExpDecrementContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprAndOr</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprAndOr([NotNull] DEMOParser.RightExprAndOrContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprAndOr</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprAndOr([NotNull] DEMOParser.RightExprAndOrContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RightExprEnt</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRightExprEnt([NotNull] DEMOParser.RightExprEntContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RightExprEnt</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRightExprEnt([NotNull] DEMOParser.RightExprEntContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExpID</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>
@@ -214,17 +240,17 @@ public interface IDEMOListener : IParseTreeListener {
 	void ExitRightExpID([NotNull] DEMOParser.RightExpIDContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by the <c>RightExpPar</c>
+	/// Enter a parse tree produced by the <c>RightExpNot</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+	void EnterRightExpNot([NotNull] DEMOParser.RightExpNotContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>RightExpPar</c>
+	/// Exit a parse tree produced by the <c>RightExpNot</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+	void ExitRightExpNot([NotNull] DEMOParser.RightExpNotContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>RightExprFctCall</c>

@@ -13,6 +13,7 @@ start:
     POP AX
     ADD AX,BX
     PUSH AX
+    POP AX
     CALL print_ax
     CALL print_nl
     MOV AX,5
@@ -23,6 +24,7 @@ start:
     POP AX
     ADD AX,BX
     PUSH AX
+    POP AX
     CALL print_ax
     CALL print_nl
     MOV AX,5
@@ -33,6 +35,7 @@ start:
     POP AX
     ADD AX,BX
     PUSH AX
+    POP AX
     CALL print_ax
     CALL print_nl
     mov ah, 4ch

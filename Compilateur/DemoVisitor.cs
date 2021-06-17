@@ -21,33 +21,39 @@ namespace Compilateur
         public override string VisitDemo(DEMOParser.DemoContext context)
         {
             Printer.PrintBeginData();
-
-            foreach (var declarationContext in context.declaration())
+            try
             {
-                this.Visit(declarationContext);
-            }
+                foreach (var declarationContext in context.declaration())
+                {
+                    this.Visit(declarationContext);
+                }
 
-            foreach (var declarationFunctionContext in context.declarationFunction())
+                foreach (var declarationFunctionContext in context.declarationFunction())
+                {
+                    this.Visit(declarationFunctionContext);
+                }
+
+                Printer.PrintBeginCode();
+
+                foreach (var instructionContext in context.instruction())
+                {
+                    this.Visit(instructionContext);
+                }
+
+                Printer.PrintEnd();
+            }
+            catch(OverflowException e)
             {
-                this.Visit(declarationFunctionContext);
+                throw new ValueOverflowException("Value is too large for a word (16 bits maximum).");
             }
-
-            Printer.PrintBeginCode();
-
-            foreach (var instructionContext in context.instruction())
-            {
-                this.Visit(instructionContext);
-            }
-
-            Printer.PrintEnd();
             return string.Empty;
         }
 
         public override string VisitRightExprPlusMinus(DEMOParser.RightExprPlusMinusContext context)
         {
             //Console.WriteLine(context.GetText());
-            var left = this.Visit(context.expr(0));
-            var right = this.Visit(context.expr(1));
+            this.Visit(context.expr(0));
+            this.Visit(context.expr(1));
             Printer.PrintPopRegister(AssemblyRegister.BX);
             Printer.PrintPopRegister(AssemblyRegister.AX);
             
@@ -56,12 +62,25 @@ namespace Compilateur
             {
                 case DEMOLexer.PLUS:
                     Printer.PrintAdd(AssemblyRegister.AX, AssemblyRegister.BX);
-                    Printer.PrintPushRegister(AssemblyRegister.AX);
                     break;
                 case DEMOLexer.MINUS:
                     Printer.PrintSub(AssemblyRegister.AX, AssemblyRegister.BX);
-                    Printer.PrintPushRegister(AssemblyRegister.AX);
                     break;
+            }
+
+            Printer.PrintPushRegister(AssemblyRegister.AX);
+            return string.Empty;
+        }
+
+        public override string VisitRightExpMulDivMod(DEMOParser.RightExpMulDivModContext context)
+        {
+            this.Visit(context.expr(0));
+            this.Visit(context.expr(1));
+            Printer.PrintPopRegister(AssemblyRegister.BX);
+            Printer.PrintPopRegister(AssemblyRegister.AX);
+
+            switch (context.op.Type)
+            {
                 case DEMOLexer.MUL:
                     Printer.PrintMul(AssemblyRegister.BX);
                     Printer.PrintPushRegister(AssemblyRegister.AX);
@@ -74,15 +93,29 @@ namespace Compilateur
                     Printer.PrintDiv(AssemblyRegister.BX);
                     Printer.PrintPushRegister(AssemblyRegister.DX);
                     break;
+            }
+
+            return string.Empty;
+        }
+
+        public override string VisitRightExprAndOr(DEMOParser.RightExprAndOrContext context)
+        {
+            this.Visit(context.expr(0));
+            this.Visit(context.expr(1));
+            Printer.PrintPopRegister(AssemblyRegister.BX);
+            Printer.PrintPopRegister(AssemblyRegister.AX);
+
+
+            switch (context.op.Type)
+            {
                 case DEMOLexer.AND:
                     Printer.PrintAnd(AssemblyRegister.AX, AssemblyRegister.BX);
-                    Printer.PrintPushRegister(AssemblyRegister.AX); ;
                     break;
                 case DEMOLexer.OR:
                     Printer.PrintOr(AssemblyRegister.AX, AssemblyRegister.BX);
-                    Printer.PrintPushRegister(AssemblyRegister.AX); ;
                     break;
             }
+            Printer.PrintPushRegister(AssemblyRegister.AX); ;
 
             return string.Empty;
         }
@@ -117,6 +150,9 @@ namespace Compilateur
             Printer.PrintPopRegister(AssemblyRegister.AX);
             Printer.PrintNot(AssemblyRegister.AX);
             Printer.PrintPushRegister(AssemblyRegister.AX);
+
+
+
             return string.Empty;
         }
 
@@ -188,20 +224,27 @@ namespace Compilateur
 
         public override string VisitDeclVar(DEMOParser.DeclVarContext context)
         {
-            switch (context.type.Type)
+            if (this.SymbolTable.Entries.Find(e => e.Name == context.ID().GetText()) != null)
             {
-                case DEMOLexer.BYTE:
-                    this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarByte));
-                    Printer.PrintByteDeclaration(context.ID().GetText());
-                    break;
-                case DEMOLexer.WORD:
-                    this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarWord));
-                    Printer.PrintWordDeclaration(context.ID().GetText());
-                    break;
-                case DEMOLexer.STRING:
-                    this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarWord));
-                    Printer.PrintStringDeclaration(context.ID().GetText());
-                    break;
+                throw new SymbolAlreadyDefinedException("The variable " + context.ID().GetText() + " already exists.");
+            }
+            else
+            {
+                switch (context.type.Type)
+                {
+                    case DEMOLexer.BYTE:
+                        this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarByte));
+                        Printer.PrintByteDeclaration(context.ID().GetText());
+                        break;
+                    case DEMOLexer.WORD:
+                        this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarWord));
+                        Printer.PrintWordDeclaration(context.ID().GetText());
+                        break;
+                    case DEMOLexer.STRING:
+                        this.SymbolTable.Entries.Add(new STVar(null, context.ID().GetText(), VarType.VarWord));
+                        Printer.PrintStringDeclaration(context.ID().GetText());
+                        break;
+                }
             }
 
             return string.Empty;
@@ -235,8 +278,7 @@ namespace Compilateur
             {
                 throw new NotFoundSymbolException("Cannot find " + context.ID().GetText() + ". Please make sure it has been declared.");
             }
-
-            //return base.VisitInstAssignation(context);
+            
             return string.Empty;
         }
 
@@ -258,7 +300,9 @@ namespace Compilateur
 
         public override string VisitDeclFunction(DEMOParser.DeclFunctionContext context)
         {
-            Scope scope = new Scope(context.ID().GetText(), context.type.Type == DEMOLexer.BYTE ? Scope.FctType.FctByte : Scope.FctType.FctWord);
+            Scope scope = new Scope(context.ID().GetText(), 
+                context.type.Type == DEMOLexer.BYTE ? Scope.FctType.FctByte : Scope.FctType.FctWord);
+
             this.SymbolTable.Scopes.Add(scope);
             foreach (var paramDeclContext in context.parameterDeclaration())
             {
@@ -269,7 +313,7 @@ namespace Compilateur
             }
 
             this.Printer.PrintStartProc(scope.Name);
-
+            
             //Ecrire le depush des parametres
 
             foreach (var instructionContext in context.instruction())

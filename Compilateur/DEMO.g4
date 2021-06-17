@@ -27,15 +27,17 @@ instruction: expr                             #InstExpr
              | NOP                            #InstNOP
              ;
 
-expr: expr op=(PLUS|MINUS|MUL|DIV|MOD|AND|OR) expr   #RightExprPlusMinus
-      | expr op=(LSHIFT|RSHIFT) exprent       #RightExprShift
-      | exprent                               #RightExprEnt
-      | NOT expr                              #RightExpNot
-      | expr INC                              #RightExpIncrement
-      | expr DEC                              #RightExpDecrement
-      | ID                                    #RightExpID
-      | LPAR expr RPAR                        #RightExpPar
-      | ID LPAR (parameterDeclaration*)? RPAR #RightExprFctCall
+expr: LPAR expr RPAR                                #RightExpPar
+      | expr op=(MUL|DIV|MOD) expr                  #RightExpMulDivMod
+      | expr op=(PLUS|MINUS) expr                   #RightExprPlusMinus
+      | expr INC                                    #RightExpIncrement
+      | expr DEC                                    #RightExpDecrement
+      | expr op=(AND|OR) expr                       #RightExprAndOr
+      | expr op=(LSHIFT|RSHIFT) exprent             #RightExprShift
+      | exprent                                     #RightExprEnt
+      | ID                                          #RightExpID
+      | NOT expr                                    #RightExpNot
+      | ID LPAR (parameterDeclaration*)? RPAR       #RightExprFctCall
       ;
 
 exprent: NUMBER                               #RightExprNumber

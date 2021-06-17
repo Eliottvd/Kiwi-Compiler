@@ -7,6 +7,7 @@ code segment
     assume cs:code, ds:data
 start:
     MOV AX, [b]
+    PUSH AX
     MOV AX,69
     PUSH AX
     POP BX
@@ -15,7 +16,9 @@ start:
     PUSH AX
     MOV [b], AX
     MOV AX, [b]
+    PUSH AX
     MOV AX, [b]
+    PUSH AX
     POP BX
     POP AX
     ADD AX,BX
@@ -29,6 +32,7 @@ start:
     POP AX
     ADD AX,BX
     PUSH AX
+    POP AX
     CALL print_ax
     CALL print_nl
     mov ah, 4ch

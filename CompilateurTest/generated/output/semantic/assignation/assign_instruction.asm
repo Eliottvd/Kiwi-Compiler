@@ -10,6 +10,8 @@ start:
     PUSH AX
     MOV [w1], AX
     MOV AX, [w1]
+    PUSH AX
+    POP AX
     CALL print_ax
     CALL print_nl
     mov ah, 4ch

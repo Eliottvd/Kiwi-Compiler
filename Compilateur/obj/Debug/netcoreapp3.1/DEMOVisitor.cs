@@ -89,36 +89,28 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitInstNOP([NotNull] DEMOParser.InstNOPContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExpPar</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExpMulDivMod</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExpMulDivMod([NotNull] DEMOParser.RightExpMulDivModContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprPlusMinus</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitRightExprPlusMinus([NotNull] DEMOParser.RightExprPlusMinusContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>RightExprShift</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>RightExprEnt</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRightExprEnt([NotNull] DEMOParser.RightExprEntContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>RightExpNot</c>
-	/// labeled alternative in <see cref="DEMOParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRightExpNot([NotNull] DEMOParser.RightExpNotContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExpIncrement</c>
@@ -137,6 +129,30 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitRightExpDecrement([NotNull] DEMOParser.RightExpDecrementContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprAndOr</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprAndOr([NotNull] DEMOParser.RightExprAndOrContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprShift</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprShift([NotNull] DEMOParser.RightExprShiftContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RightExprEnt</c>
+	/// labeled alternative in <see cref="DEMOParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRightExprEnt([NotNull] DEMOParser.RightExprEntContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExpID</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>
@@ -145,12 +161,12 @@ public interface IDEMOVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitRightExpID([NotNull] DEMOParser.RightExpIDContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by the <c>RightExpPar</c>
+	/// Visit a parse tree produced by the <c>RightExpNot</c>
 	/// labeled alternative in <see cref="DEMOParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRightExpPar([NotNull] DEMOParser.RightExpParContext context);
+	Result VisitRightExpNot([NotNull] DEMOParser.RightExpNotContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>RightExprFctCall</c>

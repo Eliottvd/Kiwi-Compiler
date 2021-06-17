@@ -13,6 +13,7 @@ start:
     POP AX
     SUB AX,BX
     PUSH AX
+    POP AX
     CALL print_ax
     CALL print_nl
     mov ah, 4ch

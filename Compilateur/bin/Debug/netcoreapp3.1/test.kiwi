@@ -1,9 +1,12 @@
+###71
+
+# Program 
 Begin 
-	print(2*6)   					#12
-	print(0b00001111 & 0b11110011)  #3
-	print(0b00001111 | 0b01110011)  #127
-	print(0b11110001 >> 4) 			#15
-	print(0b00000001 << 4) 			#16
-	print(7/2)   					#3
-	print(7%2)   					#1
+
+    # instruction
+    byte w1
+    
+    w1 = 69 + 2
+    print(w1)
+
 End

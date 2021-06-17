@@ -150,8 +150,7 @@ namespace Compilateur.Generator
         {
             this.writer.WriteLine("    SUB " + register + "," + register2);
         }
-
-        //MUL|DIV|MOD|AND|OR
+        
         public void PrintMul(AssemblyRegister register)
         {
             this.writer.WriteLine("    MUL " + register);
