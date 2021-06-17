@@ -364,6 +364,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+TestResults/
+todo.txt
+
 ### DotnetCore ###
 # .NET Core build folders
 bin/
